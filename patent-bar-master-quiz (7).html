@@ -1,0 +1,2738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Patent Bar — Master Sheet</title>
+
+<style>
+/* ══ THEME SYSTEM ══════════════════════════════════════════════════════════ */
+:root {
+  --bg:        #080a18;
+  --bg2:       #0c0e20;
+  --bg3:       #0e1128;
+  --surface:   rgba(255,255,255,.03);
+  --surface2:  rgba(255,255,255,.045);
+  --border:    rgba(255,255,255,.09);
+  --border2:   rgba(255,255,255,.14);
+  --text:      #d8dff5;
+  --text2:     #8090b0;
+  --text3:     #5a6a88;
+  --topbar-bg: rgba(8,10,24,.97);
+  --sidebar-bg:#0c0e20;
+  --card-bg:   #0e1128;
+  --overlay:   rgba(4,5,14,.88);
+  --quiz-overlay: rgba(4,5,14,.93);
+  --input-bg:  rgba(255,255,255,.07);
+  --note-bg:   rgba(0,0,0,.35);
+  --scrollbar: rgba(255,255,255,.12);
+  --trap-bg:   rgba(255,50,50,.06);
+  --trap-bdr:  rgba(255,80,80,.22);
+  --hook-bg:   rgba(0,240,200,.05);
+  --hook-bdr:  rgba(0,240,200,.18);
+  --chip-mpep-bg:  rgba(120,140,200,.09);
+  --chip-link-bg:  rgba(60,180,255,.08);
+}
+
+/* ── LIGHT THEME ── */
+html[data-theme="light"] {
+  --bg:        #f0f2f8;
+  --bg2:       #e4e8f2;
+  --bg3:       #ffffff;
+  --surface:   rgba(0,0,0,.03);
+  --surface2:  rgba(0,0,0,.055);
+  --border:    rgba(0,0,0,.1);
+  --border2:   rgba(0,0,0,.15);
+  --text:      #1a2040;
+  --text2:     #4a5470;
+  --text3:     #7a88a8;
+  --topbar-bg: rgba(240,242,248,.97);
+  --sidebar-bg:#e4e8f2;
+  --card-bg:   #ffffff;
+  --overlay:   rgba(220,225,240,.88);
+  --quiz-overlay: rgba(200,208,230,.94);
+  --input-bg:  rgba(0,0,0,.05);
+  --note-bg:   rgba(0,0,0,.04);
+  --scrollbar: rgba(0,0,0,.18);
+  --trap-bg:   rgba(200,30,30,.05);
+  --trap-bdr:  rgba(200,60,60,.2);
+  --hook-bg:   rgba(0,160,130,.05);
+  --hook-bdr:  rgba(0,180,150,.2);
+  --chip-mpep-bg:  rgba(80,100,180,.08);
+  --chip-link-bg:  rgba(20,130,220,.07);
+}
+
+/* ── SEPIA THEME ── */
+html[data-theme="sepia"] {
+  --bg:        #f5f0e8;
+  --bg2:       #ede7d8;
+  --bg3:       #faf6ee;
+  --surface:   rgba(100,70,20,.04);
+  --surface2:  rgba(100,70,20,.07);
+  --border:    rgba(100,70,20,.14);
+  --border2:   rgba(100,70,20,.2);
+  --text:      #2d2010;
+  --text2:     #6b5030;
+  --text3:     #9a8060;
+  --topbar-bg: rgba(245,240,232,.97);
+  --sidebar-bg:#ede7d8;
+  --card-bg:   #faf6ee;
+  --overlay:   rgba(230,220,200,.88);
+  --quiz-overlay: rgba(225,215,195,.94);
+  --input-bg:  rgba(100,70,20,.06);
+  --note-bg:   rgba(100,70,20,.05);
+  --scrollbar: rgba(100,70,20,.2);
+  --trap-bg:   rgba(180,60,20,.05);
+  --trap-bdr:  rgba(180,70,20,.2);
+  --hook-bg:   rgba(20,120,90,.05);
+  --hook-bdr:  rgba(20,130,100,.18);
+  --chip-mpep-bg:  rgba(100,80,30,.08);
+  --chip-link-bg:  rgba(30,100,60,.07);
+}
+
+/* ── DARK-IMPROVED THEME ── */
+html[data-theme="dark"] {
+  --bg:        #13151f;
+  --bg2:       #1a1d2c;
+  --bg3:       #1f2235;
+  --surface:   rgba(255,255,255,.04);
+  --surface2:  rgba(255,255,255,.07);
+  --border:    rgba(255,255,255,.1);
+  --border2:   rgba(255,255,255,.17);
+  --text:      #dde4f5;
+  --text2:     #8a9ab8;
+  --text3:     #5a6a88;
+  --topbar-bg: rgba(19,21,31,.98);
+  --sidebar-bg:#1a1d2c;
+  --card-bg:   #1f2235;
+  --overlay:   rgba(8,10,20,.86);
+  --quiz-overlay: rgba(10,12,22,.92);
+  --input-bg:  rgba(255,255,255,.07);
+  --note-bg:   rgba(0,0,0,.3);
+  --scrollbar: rgba(255,255,255,.15);
+  --trap-bg:   rgba(255,60,60,.07);
+  --trap-bdr:  rgba(255,90,90,.25);
+  --hook-bg:   rgba(0,240,200,.06);
+  --hook-bdr:  rgba(0,240,200,.2);
+  --chip-mpep-bg:  rgba(120,140,200,.1);
+  --chip-link-bg:  rgba(60,180,255,.09);
+}
+
+/* theme switcher buttons */
+.theme-switcher{position:relative;display:flex;align-items:center}
+.theme-toggle-btn{background:none;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s;color:var(--text2)}
+.theme-toggle-btn:hover{background:var(--surface2);border-color:var(--border2)}
+.theme-dots-panel{display:none;position:absolute;top:38px;right:0;background:var(--card-bg);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;gap:8px;flex-direction:column;z-index:500;min-width:130px;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.theme-dots-panel.open{display:flex}
+.theme-row{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 6px;border-radius:6px;transition:background .12s}
+.theme-row:hover{background:var(--surface2)}
+.theme-dot{width:18px;height:18px;border-radius:50%;border:2px solid transparent;transition:all .15s;flex-shrink:0}
+.theme-dot.active{border-color:#7c83ff;box-shadow:0 0 0 2px rgba(124,131,255,.3)}
+.theme-dot[data-t="default"]{background:radial-gradient(circle at 35% 35%,#1a2040,#080a18)}
+.theme-dot[data-t="dark"]{background:radial-gradient(circle at 35% 35%,#2a2f48,#13151f)}
+.theme-dot[data-t="light"]{background:radial-gradient(circle at 35% 35%,#e4e8f8,#f0f2f8)}
+.theme-dot[data-t="sepia"]{background:radial-gradient(circle at 35% 35%,#d8c8a8,#f5f0e8)}
+.theme-row-label{font-size:12px;color:var(--text2);font-weight:500}
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   HOW TO ADD / EDIT CONTENT
+   ─────────────────────────────────────────────
+   All content lives in the BUCKETS array below.
+   Each bucket has an array of "topics".
+   Each topic has:
+     title    — shown in header
+     yield    — "very-high" | "high" | "moderate" | "low"
+     rule     — main rule text (always visible)
+     details  — array of strings shown in expandable panel
+     traps    — array of strings shown in red trap boxes
+     hooks    — array of strings shown in blue memory boxes
+     mpep     — array of MPEP citation strings
+     connects — array of connection strings
+     notes    — your personal notes (string, leave "" if none)
+   ───────────────────────────────────────────── */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* TOP */
+.topbar{flex-shrink:0;background:var(--topbar-bg);border-bottom:1px solid var(--border);padding:9px 18px;display:flex;align-items:center;gap:12px}
+.topbar h1{font-size:16px;font-weight:700;color:#c8dcff;white-space:nowrap}
+.sb-toggle{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);color:#b0c0e0;border-radius:6px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0;transition:background .15s,color .15s}
+.sb-toggle:hover{background:rgba(255,255,255,.13);color:#fff}
+.search-wrap{flex:1;max-width:340px}
+.search{width:100%;background:var(--input-bg);border:1px solid var(--border2);color:var(--text);border-radius:6px;padding:6px 12px;font-size:14px;outline:none}
+.search:focus{border-color:rgba(74,127,255,.5);background:rgba(74,127,255,.07)}
+.search::placeholder{color:#5a6a88}
+.prog-wrap{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:#6a7a98}
+.pbar{width:110px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#4a7fff,#a855f7,#10b981);transition:width .4s}
+.pcount{color:var(--text2);font-weight:700}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:230px;flex-shrink:0;background:var(--sidebar-bg);border-right:1px solid var(--border);overflow-y:auto;padding:10px 0;transition:width .2s ease,opacity .2s ease}
+.sidebar.collapsed{width:0;opacity:0;overflow:hidden}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px}
+.sb-btn{width:100%;text-align:left;padding:9px 15px;background:none;border:none;color:var(--text2);font-size:13px;cursor:pointer;display:flex;flex-direction:column;gap:3px;border-left:3px solid transparent;transition:all .15s;line-height:1.35}
+.sb-btn:hover{color:var(--text);background:var(--surface2)}
+.sb-btn.active{color:var(--text);background:rgba(74,127,255,.12);border-left-color:#5a8fff;font-weight:600}
+.sb-num{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.sb-btn.active .sb-num{color:#6a90c0}
+.sb-btn:hover .sb-num{color:#7a8ab0}
+.sb-divider{height:1px;background:rgba(255,255,255,.07);margin:6px 10px}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto;padding:20px 24px}
+.main::-webkit-scrollbar{width:6px}.main::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+
+/* BUCKET HEADER */
+.bkt-header{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.bkt-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px}
+.bkt-sub{font-size:14px;color:var(--text2);margin-bottom:6px}
+.bkt-mpep{font-size:12.5px;color:var(--text3);font-style:italic}
+
+/* TOPICS GRID */
+.topics{column-count:3;column-gap:12px;column-fill:balance}
+.topic{break-inside:avoid;margin-bottom:12px;display:inline-block;width:100%}
+@media(max-width:1100px){.topics{column-count:2}}
+@media(max-width:680px){.topics{column-count:1}}
+
+/* TOPIC CARD */
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.topic{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;animation:cardIn .25s ease both;position:relative}
+.topic:hover{border-color:var(--border2);background:var(--surface2)}
+.topic-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:9px}
+.topic-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.3}
+.yield{font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;flex-shrink:0}
+.yield.very-high{background:rgba(255,50,50,.18);color:#ff5f5f;border:1px solid rgba(255,80,80,.45);text-shadow:0 0 8px rgba(255,80,80,.4)}
+.yield.high{background:rgba(255,180,0,.15);color:#ffcc30;border:1px solid rgba(255,190,0,.4);text-shadow:0 0 8px rgba(255,200,0,.35)}
+.yield.moderate{background:rgba(60,130,255,.16);color:#70c8ff;border:1px solid rgba(80,160,255,.35)}
+.yield.low{background:rgba(120,130,160,.11);color:#8898b8;border:1px solid rgba(120,130,160,.22)}
+
+.rule{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:0}
+.rule p{margin-bottom:10px}.rule p:last-child{margin-bottom:0}
+
+/* EXPAND TOGGLE */
+.toggle{display:flex;align-items:center;gap:6px;margin-top:11px;cursor:pointer;font-size:13px;color:#5a80aa;padding:5px 8px;border-radius:5px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);user-select:none;transition:all .15s;font-weight:500}
+.toggle:hover{color:#90c0e8;background:rgba(74,127,255,.08);border-color:rgba(74,127,255,.2)}
+.toggle-arrow{font-size:10px;transition:transform .2s}
+.topic.open .toggle-arrow{transform:rotate(90deg)}
+.topic.open .toggle{color:#7ab8e8;background:rgba(74,127,255,.1);border-color:rgba(74,127,255,.25)}
+
+/* DETAILS PANEL */
+.details{display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07)}
+.topic.open .details{display:block}
+
+/* ITEMS — single bullet via CSS only */
+.det-item{display:flex;gap:8px;font-size:13.5px;color:#8898ba;line-height:1.68;margin-bottom:7px}
+.det-item::before{content:'▸';flex-shrink:0;color:#3a6090;margin-top:1px;font-size:12px;line-height:1.6}
+.det-item strong{color:#b0cce8;font-weight:600}
+.det-item em{font-style:normal;color:#5a9acc}
+
+/* TRAP */
+@keyframes glow{0%,100%{box-shadow:none}60%{box-shadow:0 0 0 3px rgba(255,60,60,.07)}}
+.trap{margin-top:9px;padding:10px 13px 10px 16px;background:var(--trap-bg);border:1px solid var(--trap-bdr);border-radius:6px;font-size:13.5px;color:#e07878;line-height:1.68;position:relative;animation:glow 4.5s ease infinite}
+.trap::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#ff4444,#990000);border-radius:3px 0 0 3px}
+.trap strong{color:#ff7070;font-weight:700}
+
+/* HOOK */
+.hook{margin-top:8px;padding:10px 13px;background:var(--hook-bg);border:1px solid var(--hook-bdr);border-radius:6px;font-size:13.5px;color:#40d4b8;line-height:1.68}
+.hook strong{color:#60ffe0;font-weight:700;text-shadow:0 0 8px rgba(0,255,200,.2)}
+
+/* INLINE COMPARISON TABLE */
+.cmp{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;border-radius:7px;overflow:hidden}
+.cmp th{padding:7px 11px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;text-align:left}
+.cmp td{padding:8px 11px;border-top:1px solid rgba(255,255,255,.06);line-height:1.5;vertical-align:top}
+.cmp tr:hover td{background:rgba(255,255,255,.025)}
+.cmp .th-row{background:rgba(255,255,255,.05)}
+.cmp .col-a{color:#7df9e8;font-weight:600}
+.cmp .col-b{color:#ff9de2;font-weight:600}
+.cmp .col-c{color:#ffe566;font-weight:600}
+.cmp .col-g{color:#7aff9a;font-weight:600}
+.cmp td.y{color:#5dde8a}.cmp td.n{color:#ff6b6b}.cmp td.p{color:#ffc94d}
+
+/* CHIPS ROW */
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.chip{font-size:12px;padding:3px 10px;border-radius:4px;border:1px solid;cursor:default}
+.chip.mpep{background:var(--chip-mpep-bg);border-color:rgba(120,140,200,.22);color:#8098c8}
+.chip.link{background:var(--chip-link-bg);border-color:rgba(60,180,255,.22);color:#60c0ff}
+
+/* NOTES */
+.notes-section{margin-top:11px}
+.notes-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;color:#4a6080;font-weight:700;margin-bottom:5px}
+.notes-box{width:100%;background:var(--note-bg);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-size:13.5px;padding:8px 11px;resize:vertical;min-height:56px;font-family:inherit;line-height:1.65;outline:none;transition:border-color .15s}
+.notes-box:focus{border-color:rgba(60,180,255,.4);background:rgba(60,180,255,.04)}
+.notes-box::placeholder{color:#2a3a52}
+
+/* FOCUS BUTTON on each card */
+.focus-btn{background:none;border:1px solid var(--border);color:var(--text3);border-radius:5px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;flex-shrink:0;transition:all .15s;margin-left:4px}
+.focus-btn:hover{background:rgba(74,127,255,.15);border-color:rgba(74,127,255,.4);color:#90c0ff}
+.focus-btn title{display:none}
+
+/* FOCUS OVERLAY */
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+@keyframes spotIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+#focusOverlay{display:none;position:fixed;inset:0;z-index:999;background:var(--overlay);backdrop-filter:blur(6px);overflow-y:auto;padding:32px 20px;animation:overlayIn .2s ease}
+#focusOverlay.visible{display:flex;align-items:flex-start;justify-content:center}
+.focus-card{background:var(--card-bg);border:1px solid var(--border2);border-radius:14px;padding:28px 32px;max-width:780px;width:100%;animation:spotIn .22s ease;position:relative;margin:auto}
+.focus-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9ab0cc;border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .15s}
+.focus-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.35);color:#f08080}
+.focus-card .topic-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.3;padding-right:36px}
+.focus-card .yield{font-size:11px;padding:4px 12px;margin-bottom:14px;display:inline-flex}
+.focus-card .rule{font-size:15.5px;color:var(--text2);line-height:1.75;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.focus-card .det-item{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.focus-card .det-item:last-of-type{border-bottom:none}
+.focus-card .trap{font-size:14px;color:#e07878;padding:10px 14px 10px 17px;margin-top:10px}
+.focus-card .hook{font-size:14px;color:#40d4b8;padding:10px 14px;margin-top:10px}
+.focus-card .cmp{font-size:14px}
+.focus-card .chips{margin-top:12px;gap:6px}
+.focus-card .chip{font-size:12.5px;padding:4px 12px}
+.focus-card .notes-section{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
+.focus-card .notes-label{font-size:11.5px;margin-bottom:6px}
+.focus-card .notes-box{font-size:14px;min-height:80px;padding:10px 14px}
+.focus-nav{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.07)}
+
+/* Flag system */
+
+.focus-nav-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);color:#9ab0cc;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.focus-nav-btn:hover{background:rgba(74,127,255,.15);border-color:rgba(74,127,255,.35);color:#90c0ff}
+.focus-nav-btn:disabled{opacity:.25;cursor:default;pointer-events:none}
+.focus-nav-counter{font-size:12px;color:#3a4a62}
+
+/* SEARCH HIT HIGHLIGHT */
+.topic.hidden{display:none}
+mark{background:rgba(245,158,11,.25);color:#fbbf24;border-radius:2px;padding:0 1px}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:40px;color:#2a3a50;font-size:13px}
+
+/* ══════════════════ QUIZ MODE ══════════════════ */
+.quiz-btn{background:rgba(124,131,255,.15);border:1px solid rgba(124,131,255,.35);color:#b0b8ff;border-radius:6px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.quiz-btn:hover{background:rgba(124,131,255,.28);color:#d0d8ff}
+.quiz-btn.active{background:rgba(124,131,255,.3);border-color:#7c83ff;color:#fff}
+
+/* overlay */
+#quizOverlay{display:none;position:fixed;inset:0;z-index:1100;background:var(--quiz-overlay);backdrop-filter:blur(8px);overflow:hidden}
+#quizOverlay.visible{display:flex;align-items:center;justify-content:center;padding:56px 16px 24px}
+
+/* progress header */
+.qz-header{display:none}
+.qz-close{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9ab0cc;border-radius:6px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:17px;flex-shrink:0;transition:all .15s}
+.qz-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.35);color:#f08080}
+.qz-title{font-size:14px;font-weight:700;color:var(--text);flex:1}
+.qz-prog-text{font-size:12px;color:#5a7090}
+.qz-pbar{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.qz-pfill{height:100%;background:linear-gradient(90deg,#4a7fff,#a855f7);transition:width .3s;border-radius:3px}
+
+/* card */
+.qz-card{background:#1a1d2c;border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:40px 44px;max-width:860px;width:calc(100% - 48px);position:absolute;box-shadow:0 12px 48px rgba(0,0,0,.4);cursor:grab;user-select:none}.qz-card:active{cursor:grabbing}
+.qz-topic-label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#5a7090;font-weight:700;margin-bottom:10px}
+.qz-yield{display:inline-flex;font-size:10px;font-weight:800;padding:3px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+.qz-sentence{font-size:22px;color:#dde4f5;line-height:1.85;margin-bottom:28px;font-weight:500}
+.qz-blank{display:inline-block;border-bottom:2px solid #7c83ff;min-width:110px;height:1.4em;vertical-align:middle;cursor:pointer;transition:all .2s;margin:0 4px}
+.qz-blank.revealed{border-bottom-color:#7df9e8;background:rgba(0,240,200,.08);border-radius:4px;color:#7df9e8;font-weight:700;padding:2px 8px;height:auto;vertical-align:baseline}
+
+/* reveal btn */
+.qz-reveal-btn{background:rgba(124,131,255,.15);border:1px solid rgba(124,131,255,.3);color:#7c83ff;border-radius:8px;padding:14px 24px;font-size:17px;font-weight:600;cursor:pointer;transition:all .15s;width:100%;margin-bottom:20px}
+.qz-reveal-btn:hover{background:rgba(124,131,255,.25);color:#d0d8ff}
+.qz-reveal-btn:disabled{opacity:.4;cursor:default}
+
+/* answer area */
+.qz-answer-area{display:none;margin-bottom:20px}
+.qz-answer-area.show{display:block}
+.qz-answer-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#5a7090;font-weight:700;margin-bottom:6px}
+.qz-answer-text{font-size:16px;color:#7df9e8;font-weight:700;padding:10px 14px;background:rgba(0,240,200,.06);border:1px solid rgba(0,240,200,.2);border-radius:8px;margin-bottom:12px}
+.qz-context{font-size:13px;color:#6a8098;line-height:1.6;padding:10px 14px;background:rgba(255,255,255,.03);border-radius:6px;border-left:3px solid #2a4060}
+
+/* rating buttons */
+.qz-ratings{display:none;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.qz-ratings.show{display:grid}
+.qz-rate{border:none;border-radius:10px;padding:16px 8px;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.qz-rate .rate-icon{font-size:26px}
+.qz-rate .rate-label{font-size:13px;letter-spacing:.5px;text-transform:uppercase}
+.qz-rate .rate-sub{font-size:10px;opacity:.7}
+.qz-rate.again{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#f87171}
+.qz-rate.again:hover{background:rgba(239,68,68,.25)}
+.qz-rate.hard{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);color:#fbbf24}
+.qz-rate.hard:hover{background:rgba(245,158,11,.22)}
+.qz-rate.good{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80}
+.qz-rate.good:hover{background:rgba(34,197,94,.2)}
+
+/* due counter */
+.due-badge{background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.35);color:#f87171;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:6px;display:none}
+.due-badge.show{display:inline}
+
+/* summary screen */
+.qz-summary{background:#1a1d2c;border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:48px 44px;max-width:860px;width:calc(100% - 48px);text-align:center;box-shadow:0 12px 48px rgba(0,0,0,.4);position:absolute;cursor:grab;user-select:none}.qz-summary:active{cursor:grabbing}
+.qz-summary h2{font-size:22px;font-weight:700;color:#dde4f5;margin-bottom:8px}
+.qz-summary .sum-stat{font-size:42px;font-weight:800;color:#4ade80;margin:16px 0 4px}
+.qz-summary .sum-sub{font-size:14px;color:#5a6a88;margin-bottom:24px}
+.qz-sum-bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:28px}
+.qz-sum-bar{background:rgba(255,255,255,.05);border-radius:8px;padding:14px 10px;text-align:center}
+.qz-sum-bar .bar-n{font-size:26px;font-weight:800;margin-bottom:4px}
+.qz-sum-bar .bar-l{font-size:11px;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+.again-n{color:#f87171}.hard-n{color:#fbbf24}.good-n{color:#4ade80}
+.qz-restart{background:#7c83ff;color:#fff;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;margin-right:10px}
+.qz-restart:hover{background:#9499ff}
+.qz-restart-due{background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.4);color:#f87171;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.qz-restart-due:hover{background:rgba(239,68,68,.35)}
+
+
+/* Quiz topbar bar — shown when quiz is active */
+.qz-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:1200;background:#0e1020;border-bottom:2px solid rgba(124,131,255,.3);padding:0 20px;height:46px;align-items:center;gap:16px;backdrop-filter:blur(8px)}
+.qz-topbar.visible{display:flex}
+.qz-topbar .qz-close{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9ab0cc;border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;flex-shrink:0;transition:all .15s}
+.qz-topbar .qz-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.35);color:#f08080}
+.qz-topbar .qz-title{font-size:13px;font-weight:700;color:#c0ccee;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qz-topbar .qz-prog-text{font-size:12px;color:#5a7090;white-space:nowrap;flex-shrink:0}
+.qz-topbar .qz-pbar{width:120px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;flex-shrink:0}
+.qz-topbar .qz-pfill{height:100%;background:linear-gradient(90deg,#4a7fff,#a855f7);transition:width .3s;border-radius:2px}
+
+
+/* Quiz topbar bar — shown when quiz is active */
+.qz-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:1200;background:#0e1020;border-bottom:2px solid rgba(124,131,255,.3);padding:0 20px;height:46px;align-items:center;gap:16px;backdrop-filter:blur(8px)}
+.qz-topbar.visible{display:flex}
+.qz-topbar .qz-close{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#9ab0cc;border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;flex-shrink:0;transition:all .15s}
+.qz-topbar .qz-close:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.35);color:#f08080}
+.qz-topbar .qz-title{font-size:13px;font-weight:700;color:#c0ccee;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qz-topbar .qz-prog-text{font-size:12px;color:#5a7090;white-space:nowrap;flex-shrink:0}
+.qz-topbar .qz-pbar{width:120px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;flex-shrink:0}
+.qz-topbar .qz-pfill{height:100%;background:linear-gradient(90deg,#4a7fff,#a855f7);transition:width .3s;border-radius:2px}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="sb-toggle" id="sbToggle" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
+  <h1>📚 Patent Bar — Master Sheet</h1>
+  <div class="search-wrap">
+    <input class="search" id="search" placeholder="Search rules, terms, MPEP…" oninput="doSearch(this.value)">
+  </div>
+    <button class="quiz-btn" id="quizBtn" onclick="startQuiz()">⚡ Quiz This Bucket<span class="due-badge" id="dueBadge">0</span></button>
+  <button class="quiz-btn" id="wrongBtn" onclick="startWrongQuiz()" style="background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#f87171">🔴 My Wrong Cards<span class="due-badge" id="wrongBadge" style="background:rgba(239,68,68,.3);border-color:rgba(239,68,68,.5)">0</span></button>
+<div class="theme-switcher" id="themeSwitcher">
+  <button class="theme-toggle-btn" onclick="toggleThemePanel(event)" title="Change theme">🎨</button>
+  <div class="theme-dots-panel" id="themePanel">
+    <div class="theme-row" onclick="setTheme('default')"><div class="theme-dot active" data-t="default"></div><span class="theme-row-label">Default</span></div>
+    <div class="theme-row" onclick="setTheme('dark')"><div class="theme-dot" data-t="dark"></div><span class="theme-row-label">Rich Dark</span></div>
+    <div class="theme-row" onclick="setTheme('light')"><div class="theme-dot" data-t="light"></div><span class="theme-row-label">Light</span></div>
+    <div class="theme-row" onclick="setTheme('sepia')"><div class="theme-dot" data-t="sepia"></div><span class="theme-row-label">Sepia</span></div>
+  </div>
+</div>
+<div class="prog-wrap">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <span class="pcount" id="pcount">0</span>/<span id="ptotal">0</span> expanded
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main" id="main"></div>
+</div>
+
+<!-- FOCUS OVERLAY -->
+<div id="focusOverlay" onclick="overlayClick(event)">
+  <div>
+    <div class="focus-card" id="focusCard"></div>
+    <div style="text-align:center;font-size:12px;color:#3a4a62;margin-top:10px">Esc to close · ← → to navigate</div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   CONTENT DATA — edit this to add / update your notes
+   ════════════════════════════════════════════════════════ */
+const BUCKETS = [
+{
+  num: 1, title: "Application Filing Mechanics", mpep: "MPEP 600",
+  sub: 'The "Did We Even Have an Application?" Bucket',
+  topics: [
+    {
+      title: "Filing Date Requirements",
+      yield: "very-high",
+      rule: "A nonprovisional gets a filing date if it includes: (1) specification (written description), (2) at least one claim, (3) drawings if necessary to understand. Fees and oath are NOT required for filing date.",
+      details: [
+        "MPEP 601.01 and 506 govern what creates a filing date",
+        "Drawings for utility only required if needed to understand — design drawings ARE required",
+        "Missing claims or oath → Notice to File Missing Parts (curable)"
+      ],
+      traps: ["Fees missing ≠ no filing date. Oath missing ≠ no filing date. Only missing spec or required drawings kills the date."],
+      hooks: [],
+      mpep: ["MPEP 601.01", "MPEP 506"],
+      connects: ["Missing Parts", "Abandonment", "Design Patent"],
+      notes: ""
+    },
+    {
+      title: "Provisional vs Nonprovisional",
+      yield: "high",
+      rule: "<p><strong style='color:#7df9e8'>Provisional:</strong> No claims required. No oath. Expires in 12 months. Cannot mature into a patent — must convert or file a nonprovisional claiming priority.</p><p><strong style='color:#ff9de2'>Nonprovisional:</strong> Claims required (before examination). Oath required. Prosecution begins immediately.</p>",
+      details: [
+        "Provisional preserves priority date for 12 months only — no extension available",
+        "No examination occurs on a provisional",
+        "CIP of a provisional is NOT possible — must file nonprovisional within 12 months",
+        "Provisional disclosure must fully support nonprovisional claims for priority to attach"
+      ],
+      table: {
+        heads:["", "Provisional", "Nonprovisional"],
+        colClass:["","col-a","col-b"],
+        rows:[
+          ["Claims required?", "❌ No", "✅ Before examination"],
+          ["Oath required?", "❌ No", "✅ Yes"],
+          ["Expires?", "12 months (hard)", "No — prosecution continues"],
+          ["Can mature into patent?", "❌ No", "✅ Yes"],
+          ["Examination?", "❌ None", "✅ Full prosecution"]
+        ]
+      },
+      traps: ["Provisional expires at 12 months — no extension. If you miss the window to file a nonprovisional, you lose the priority date."],
+      hooks: ["<strong>Provisional = parking spot</strong> for your priority date. You still have to move the car within 12 months."],
+      mpep: ["MPEP 201.04", "MPEP 211"],
+      connects: ["Effective Filing Date", "§102 Grace Period", "CIP"],
+      notes: ""
+    },
+    {
+      title: "Missing Parts",
+      yield: "very-high",
+      rule: "If oath or fees missing → Notice to File Missing Parts. Period set (usually 2 months), extendable under 1.136(a). Absolute cap: 6 months from mailing. Failure to respond → abandonment.",
+      details: [
+        "Extensions under 1.136(a) are month-by-month (up to 5 one-month extensions)",
+        "6-month cap is absolute — no further extension beyond that",
+        "Must file missing items AND pay surcharge"
+      ],
+      traps: ["The 6-month cap is absolute. Even if you have grounds, you cannot go past it."],
+      hooks: [],
+      mpep: ["MPEP 506", "MPEP 711"],
+      connects: ["Abandonment", "Revival", "Extensions 1.136(a)"],
+      notes: ""
+    },
+    {
+      title: "Oath / Declaration",
+      yield: "high",
+      rule: "Must include: (1) inventor believes they are the original inventor, (2) duty of disclosure acknowledgment. Can be filed after filing date under Missing Parts.",
+      details: [
+        "ADS supplies inventor name/address — oath doesn't need to repeat that",
+        "ADS = WHO the inventor is · Oath = WHAT THEY SWEAR",
+        "Authorized officer may execute in some AIA assignee-filing contexts"
+      ],
+      traps: [],
+      hooks: ["ADS = WHO · Oath = WHAT THEY SWEAR"],
+      mpep: ["MPEP 602"],
+      connects: ["ADS Control", "Inventorship Correction"],
+      notes: ""
+    },
+    {
+      title: "ADS vs Spec Control",
+      yield: "high",
+      rule: "ADS controls: inventor name, residence, bibliographic data. Specification controls: technical disclosure, definitions. If ADS and spec conflict on inventor info → ADS controls.",
+      details: [
+        "ADS wins all conflicts on bibliographic/identification data",
+        "Spec wins on technical content and definitions",
+        "Priority claims must be in ADS (or spec) — must reference parent application"
+      ],
+      traps: [],
+      hooks: ["ADS = WHO · Spec = WHAT IS DISCLOSED · Claims = SCOPE"],
+      mpep: ["MPEP 601.05"],
+      connects: ["Oath", "Priority Claims", "Inventorship"],
+      notes: ""
+    },
+    {
+      title: "Inventorship Correction (1.48)",
+      yield: "moderate",
+      rule: "Incorrect inventorship can be corrected if: (1) error occurred without deceptive intent. Can add or remove inventors at any time before patent issues.",
+      details: [
+        "File corrected ADS + 1.48 request",
+        "No deceptive intent is the key requirement",
+        "All remaining inventors must still execute oath/declaration"
+      ],
+      traps: ["Wrong inventor in ADS → corrected ADS. Inventor omitted entirely → formal 1.48 correction."],
+      hooks: [],
+      mpep: ["MPEP 602.01"],
+      connects: ["Oath", "ADS"],
+      notes: ""
+    },
+    {
+      title: "Small / Micro Entity Status",
+      yield: "moderate",
+      rule: "Small entity status asserted by paying small entity fee — no separate declaration required. Must still qualify (no large entity assignment). Error correctable if good faith + pay deficiency + petition.",
+      details: [
+        "Small entity: independent inventor, small business (<500 employees), nonprofit",
+        "Micro entity: income limits + prior filing limits (≤4 prior filings, income ≤3× median household)",
+        "Status must be valid at time of EACH payment",
+        "Patent not automatically invalid if wrong status paid in good faith"
+      ],
+      traps: ["Paying small entity fee when not qualified = error, but correctable in good faith. Cannot retroactively claim discount if you forgot to assert it."],
+      hooks: [],
+      mpep: ["MPEP 509"],
+      connects: ["Fees", "Track One"],
+      notes: ""
+    },
+    {
+      title: "Abandonment",
+      yield: "high",
+      rule: "Application abandoned if: no timely and complete reply, failure to pay issue fee, or failure to respond to Missing Parts. Revival possible if delay was unintentional.",
+      details: [
+        "Revival under 37 CFR 1.137 — must petition + pay fee + show unintentional delay",
+        "Revival is not automatic",
+        "Express abandonment also possible (file written statement)"
+      ],
+      traps: ["A partial reply (ignoring one rejection) = incomplete = abandonment."],
+      hooks: [],
+      mpep: ["MPEP 711"],
+      connects: ["Revival", "Extensions", "Missing Parts", "Reply Requirements"],
+      notes: ""
+    },
+    {
+      title: "New Matter (§132)",
+      yield: "high",
+      rule: "Cannot add new matter to spec after filing. If attempted: amendment not entered. To include new matter → file CIP. Unsupported claim ≠ new matter.",
+      details: [
+        "New matter = disclosure not supported by original spec",
+        "If claim lacks spec support → §112(a) WD rejection (NOT §132)",
+        "If you try to add text to spec that wasn't there → §132 new matter objection",
+        "The distinction between §112(a) and §132 is frequently tested"
+      ],
+      traps: ["§112(a) rejection (claim lacks support) vs §132 objection (spec amendment adds new matter) are different things — don't confuse them."],
+      hooks: ["Claim without support = §112(a). Adding to spec = §132."],
+      mpep: ["MPEP 608.04"],
+      connects: ["CIP", "Written Description §112(a)", "Amendment Practice"],
+      notes: ""
+    },
+    {
+      title: "Application Types — Quick Map",
+      yield: "high",
+      rule: "Continuation: same disclosure, new claims. CIP: adds new matter. Divisional: filed after restriction. RCE: reopens prosecution (same application, not new).",
+      details: [
+        "See Bucket 8 for full detail on each type",
+        "Key distinction: RCE is NOT a new application",
+        "Divisional gets safe harbor from double patenting — continuation/CIP do not automatically"
+      ],
+      traps: ["RCE ≠ continuation. RCE stays in same application. Continuation is a new application with same disclosure."],
+      hooks: [],
+      mpep: ["MPEP 201"],
+      connects: ["Bucket 8 — Continuing Applications", "RCE", "Double Patenting"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 2, title: "Claim Interpretation", mpep: "MPEP 2111",
+  sub: "Broadest Reasonable Interpretation (BRI) — How examiners read claims",
+  topics: [
+    {
+      title: "Broadest Reasonable Interpretation (BRI)",
+      yield: "very-high",
+      rule: "During prosecution, claims get their broadest reasonable interpretation consistent with the specification. NOT the broadest possible, NOT the narrowest, NOT how the inventor privately intended it.",
+      details: [
+        "BRI is the prosecution standard — courts use different (narrower) claim construction",
+        "Must be reasonable and consistent with the spec",
+        "After issuance, district courts use Phillips standard (narrower)"
+      ],
+      traps: ["BRI ≠ broadest possible interpretation. It must be reasonable. Courts don't use BRI — only USPTO during prosecution."],
+      hooks: [],
+      mpep: ["MPEP 2111"],
+      connects: ["§102 Anticipation", "§103 Obviousness", "Lexicographer Rule"],
+      notes: ""
+    },
+    {
+      title: "Lexicographer Rule",
+      yield: "very-high",
+      rule: "If the spec clearly sets forth a definition with clear intent to define, that definition controls — overrides BRI ordinary meaning. Requirements: clear intent to define + explicit definitional language.",
+      details: [
+        "Examples: 'As used herein…' or 'The term X means…'",
+        "Must be clear and unambiguous — vague redefinitions don't qualify",
+        "Applicant as own lexicographer = applicant sets the definition"
+      ],
+      traps: ["The spec must clearly express intent to define. Merely using a word differently once doesn't create a lexicographic definition."],
+      hooks: ["If the spec defines it, USE THAT DEFINITION — ignore ordinary meaning."],
+      mpep: ["MPEP 2111.01"],
+      connects: ["BRI", "§102", "Indefiniteness §112(b)"],
+      notes: ""
+    },
+    {
+      title: "Transitional Phrases (Comprising / Consisting)",
+      yield: "very-high",
+      rule: "Comprising = OPEN (additional elements OK, still infringes). Consisting of = CLOSED (no additional elements allowed). Consisting essentially of = SEMI-CLOSED (extra elements OK only if they don't materially affect basic and novel characteristics).",
+      details: [
+        "'Having' and 'including' are treated as open like 'comprising'",
+        "Closed claims are much narrower — easier to design around",
+        "Semi-closed ('essentially of') is a middle ground often tested in chemistry"
+      ],
+      traps: [],
+      hooks: ["Open = comprising (extra stuff OK) · Closed = consisting of (exact match only)"],
+      mpep: ["MPEP 2111.03"],
+      connects: ["§102 Anticipation", "Range Interpretation", "Composition Claims"],
+      notes: ""
+    },
+    {
+      title: "Range Interpretation",
+      yield: "high",
+      rule: "Overlapping ranges can anticipate. If prior art range overlaps claimed range → prima facie anticipation. Dependent claims must strictly narrow — cannot broaden.",
+      details: [
+        "Even slight overlap between prior art and claimed range can suffice for §102",
+        "Claim: 10–20, Prior art: 5–15 → overlap at 10–15 → possible anticipation",
+        "Adding 'about' may broaden a range claim",
+        "Changing upper bound upward = broadening (not allowed by amendment after final)"
+      ],
+      traps: ["Adding 'about' to a range BROADENS it. Students often think it clarifies or narrows."],
+      hooks: [],
+      mpep: ["MPEP 2111.03", "MPEP 2131"],
+      connects: ["§102 Inherency", "§103", "Dependent Claim Validity"],
+      notes: ""
+    },
+    {
+      title: "Means-Plus-Function (§112(f))",
+      yield: "very-high",
+      rule: "If claim uses 'means for [function]' → §112(f) presumed to apply. Claim is limited to corresponding structure in spec + equivalents. Non-structural nonce words ('module,' 'unit') may also invoke §112(f) if purely functional.",
+      details: [
+        "Without 'means': presumption against §112(f) applies, but can be overcome",
+        "Computer-implemented: must disclose algorithm — 'a processor' alone is not enough structure",
+        "No structure in spec → indefinite under §112(b)",
+        "Functional language must modify 'means for' to trigger presumption"
+      ],
+      traps: ["Software claims saying 'a module configured to…' may invoke §112(f) if 'module' has no structural meaning. Must disclose algorithm."],
+      hooks: ["Means for = must match structure in spec. No structure = indefinite."],
+      mpep: ["MPEP 2181"],
+      connects: ["Indefiniteness §112(b)", "Claim Scope", "Computer-Implemented Claims"],
+      notes: ""
+    },
+    {
+      title: "Indefiniteness (§112(b))",
+      yield: "high",
+      rule: "Claim must inform PHOSITA with reasonable certainty about scope. Not absolute precision required. Terms like 'efficient,' 'thin,' 'high quality' are not automatically indefinite if the spec provides a standard.",
+      details: [
+        "Nautilus (2014): reasonable certainty standard (stricter than old 'insolubly ambiguous')",
+        "Means-plus-function with no disclosed structure → indefinite",
+        "Purely subjective terms without spec guidance → likely indefinite",
+        "Context from spec and prosecution history can save borderline terms"
+      ],
+      traps: ["'Approximately' is not automatically indefinite. If the spec provides context for what's approximate, it may be fine."],
+      hooks: [],
+      mpep: ["MPEP 2173"],
+      connects: ["§112(a)", "§112(f)", "BRI"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 3, title: "§102 Anticipation", mpep: "MPEP 2100",
+  sub: "AIA + essential pre-AIA structure — Single reference knocks out your claim",
+  topics: [
+    {
+      title: "Core Rule of Anticipation",
+      yield: "very-high",
+      rule: "A claim is anticipated if ONE prior art reference discloses every element, expressly or inherently, arranged as in the claim. Cannot combine references for §102 — that's §103.",
+      details: [
+        "All elements must be present in a single reference",
+        "Elements can be explicitly disclosed OR inherently present",
+        "Arrangement of elements must match the claim"
+      ],
+      traps: ["If the question says 'combination of references' → you're in §103, not §102."],
+      hooks: ["§102 = one reference, all elements. §103 = combine references."],
+      mpep: ["MPEP 2131"],
+      connects: ["§103 Obviousness", "Inherency", "BRI"],
+      notes: ""
+    },
+    {
+      title: "Inherency",
+      yield: "very-high",
+      rule: "A reference anticipates if a missing element is necessarily present even if not recognized. Recognition by the prior art is NOT required — only that the element is necessarily present.",
+      details: [
+        "Classic example: prior art process inevitably produces compound X → X is inherent even if not mentioned",
+        "The element must NECESSARILY be present — not just possibly present",
+        "Extrinsic evidence can be used to show inherency"
+      ],
+      traps: ["'Possibly present' ≠ inherent. Must be necessarily present. Probability is not inherency."],
+      hooks: [],
+      mpep: ["MPEP 2112"],
+      connects: ["§102 Core Rule", "§103 Inherency", "Overlapping Ranges"],
+      notes: ""
+    },
+    {
+      title: "AIA §102 Structure",
+      yield: "very-high",
+      rule: "Under AIA, prior art includes: patents, printed publications, public use, on sale, or otherwise available to the public BEFORE the effective filing date. First inventor to file wins.",
+      details: [
+        "Effective filing date (EFD) = date claim is entitled to — includes priority dates from earlier applications",
+        "Pre-AIA used 'first to invent' — AIA uses 'first inventor to file'",
+        "AIA has narrower grace period than pre-AIA"
+      ],
+      traps: ["If you miscalculate the EFD, you misapply §102. EFD includes claimed priority from continuations, PCT, foreign filings."],
+      hooks: ["AIA = First Inventor to FILE. Not first to invent."],
+      mpep: ["MPEP 2152"],
+      connects: ["Grace Period", "Effective Filing Date", "Continuing Applications"],
+      notes: ""
+    },
+    {
+      title: "AIA Grace Period",
+      yield: "very-high",
+      rule: "Disclosure by inventor (or derived from inventor) within 1 year before filing → NOT prior art. BUT only protects inventor's own disclosures. Third-party disclosure NOT derived from inventor = prior art (no grace period protection).",
+      details: [
+        "Exception 1: Inventor's own disclosure within 1 year → safe",
+        "Exception 2: Third-party disclosure AFTER inventor's disclosure → also safe (derived)",
+        "Trap: Third-party disclosure before inventor files AND not derived from inventor → prior art, no grace"
+      ],
+      traps: ["If a third party independently discloses the same invention BEFORE you file and it's NOT derived from you → that IS prior art. Grace period doesn't save you."],
+      hooks: ["Grace period only protects YOUR OWN disclosures (and those derived from you)."],
+      mpep: ["MPEP 2153"],
+      connects: ["EFD", "§102 On Sale", "Derivation Proceedings"],
+      notes: ""
+    },
+    {
+      title: "On Sale / Public Use Bar",
+      yield: "high",
+      rule: "If invention was in public use or on sale before effective filing date → prior art under AIA. Confidential sale can still count (post-Helsinn). Public availability matters.",
+      details: [
+        "Helsinn (2019): secret commercial sale can still trigger on-sale bar under AIA",
+        "Ready for patenting + commercial offer for sale = on-sale bar",
+        "Public use = used in a non-experimental way accessible to public"
+      ],
+      traps: ["Confidential sale ≠ safe. Helsinn confirmed AIA on-sale bar covers secret commercial sales."],
+      hooks: [],
+      mpep: ["MPEP 2133"],
+      connects: ["AIA Grace Period", "EFD", "§102 Structure"],
+      notes: ""
+    },
+    {
+      title: "Pre-AIA vs AIA (Must-Know Minimum)",
+      yield: "moderate",
+      rule: "Pre-AIA: §102(a),(b),(e),(g) framework, first to invent. AIA: first inventor to file, EFD is central, grace period narrower.",
+      details: [
+        "Most exam questions will be AIA — know pre-AIA basics for historical edge cases",
+        "Key pre-AIA section: §102(b) = 1-year bar before filing date",
+        "Pre-AIA §102(g) = prior invention by another in the US",
+        "Applications filed before March 16, 2013 → pre-AIA; after → AIA"
+      ],
+      traps: [],
+      hooks: ["Pre-AIA = first to INVENT. AIA = first inventor to FILE."],
+      mpep: ["MPEP 2100"],
+      connects: ["Effective Filing Date", "Grace Period"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 4, title: "§103 Obviousness", mpep: "MPEP 2141–2145",
+  sub: "Graham framework + KSR — Can't combine your way to a patent?",
+  topics: [
+    {
+      title: "Graham Framework (Core Structure)",
+      yield: "very-high",
+      rule: "Examiner must consider: (1) scope & content of prior art, (2) differences between prior art and claims, (3) level of ordinary skill (PHOSITA), (4) secondary considerations (objective evidence).",
+      details: [
+        "All four Graham factors must be considered",
+        "Secondary considerations can overcome a prima facie obviousness case",
+        "PHOSITA skill level affects what's 'obvious' — higher skill = broader obvious range"
+      ],
+      traps: [],
+      hooks: ["Graham = Scope + Differences + Skill + Secondary Evidence"],
+      mpep: ["MPEP 2141"],
+      connects: ["KSR Motivation to Combine", "Secondary Considerations", "PHOSITA"],
+      notes: ""
+    },
+    {
+      title: "Motivation to Combine (Post-KSR)",
+      yield: "very-high",
+      rule: "No rigid TSM (Teaching-Suggestion-Motivation) test required after KSR. Combination must be supported by rationale, predictable, within skill of PHOSITA. Rationale can include: design incentives, market pressure, known problem, simple substitution, obvious to try.",
+      details: [
+        "KSR (2007): flexible approach to motivation",
+        "Examiner can use common sense as a rationale",
+        "Routine optimization within a known range → likely obvious",
+        "Must show PHOSITA would have had reason to combine AND reasonable expectation of success"
+      ],
+      traps: ["KSR did NOT eliminate the need for a motivation — it just made it flexible. Examiner still needs a rationale."],
+      hooks: [],
+      mpep: ["MPEP 2143"],
+      connects: ["Graham Framework", "Obvious to Try", "Teaching Away"],
+      notes: ""
+    },
+    {
+      title: "Obvious to Try",
+      yield: "high",
+      rule: "If there are: finite number of predictable solutions + reasonable expectation of success → obvious to try may be obvious. If unpredictable art (biotech, chemistry) → less likely obvious.",
+      details: [
+        "Must have reasonable expectation of success — not just hope",
+        "Routine experimentation in a predictable art → likely obvious",
+        "Unpredictable outcomes → weighs against obviousness"
+      ],
+      traps: ["'Obvious to try' without reasonable expectation of success ≠ obvious."],
+      hooks: [],
+      mpep: ["MPEP 2143"],
+      connects: ["KSR", "Secondary Considerations", "Unpredictable Arts"],
+      notes: ""
+    },
+    {
+      title: "Secondary Considerations",
+      yield: "high",
+      rule: "Objective evidence: commercial success, long-felt need, failure of others, unexpected results, industry praise, copying. Not required — they are rebuttal evidence. KEY: must have nexus to the claimed invention.",
+      details: [
+        "Nexus = causal connection between the evidence and the claimed invention",
+        "Commercial success due to advertising → no nexus to the invention",
+        "Unexpected results must be unexpected relative to closest prior art",
+        "Must be presented with specificity — general statements don't suffice"
+      ],
+      traps: ["Commercial success alone ≠ rebuts obviousness. Must show the success is due to the claimed features, not marketing."],
+      hooks: ["Secondary considerations = 'But wait — here's why it wasn't obvious!' evidence."],
+      mpep: ["MPEP 2145"],
+      connects: ["Graham Framework", "§103 Core", "Nexus Requirement"],
+      notes: ""
+    },
+    {
+      title: "Teaching Away",
+      yield: "high",
+      rule: "If prior art discourages or criticizes the combination → weighs against obviousness. But must truly discourage. Mere preference for an alternative is NOT teaching away.",
+      details: [
+        "Prior art saying 'A is better than B' does not teach away from B",
+        "Prior art saying 'do not do B because it will fail' may teach away",
+        "Strong teaching away evidence can overcome prima facie case"
+      ],
+      traps: ["Preference is not teaching away. The prior art must actively discourage or warn against the combination."],
+      hooks: [],
+      mpep: ["MPEP 2145"],
+      connects: ["KSR", "Secondary Considerations", "Motivation to Combine"],
+      notes: ""
+    },
+    {
+      title: "§102 vs §103 Key Distinction",
+      yield: "very-high",
+      rule: "§102: single reference, identity required, every element present. §103: multiple references allowed, differences bridged by rationale.",
+      details: [],
+      table: {
+        heads:["", "§102 Anticipation", "§103 Obviousness"],
+        colClass:["","col-a","col-b"],
+        rows:[
+          ["References", "ONE reference only", "Can combine multiple"],
+          ["Standard", "Identical elements required", "Differences bridged by rationale"],
+          ["Inherency", "✅ Yes — elements can be inherent", "✅ Yes — can apply"],
+          ["Tell in question", "\"Discloses every element…\"", "\"Would have been obvious to combine…\""],
+          ["MPEP", "2131", "2141–2145"]
+        ]
+      },
+      traps: [],
+      hooks: ["<strong>One reference + all elements = §102.</strong> Multiple references + rationale = §103."],
+      mpep: ["MPEP 2131", "MPEP 2141"],
+      connects: ["Anticipation §102", "BRI", "Claim Interpretation"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 5, title: "§112 — Specification Requirements", mpep: "MPEP 2161–2181",
+  sub: "Does the spec adequately support the claims?",
+  topics: [
+    {
+      title: "Written Description (§112(a))",
+      yield: "very-high",
+      rule: "Spec must show inventor had POSSESSION of the claimed invention at time of filing. Possession = key word. Spec must reasonably convey to PHOSITA that inventor possessed the full scope of the claim.",
+      details: [
+        "Original claims filed day 1 can serve as their own WD support",
+        "Amended/added claims cannot supply their own WD — must look to spec",
+        "Genus claims: must show representative species + structural features common to genus",
+        "Broad functional claims: must show adequate structural support"
+      ],
+      traps: ["Spec discloses Compound A, claim later amended to 'all compounds that inhibit enzyme X' → likely fails WD. Breadth of claim must be matched by breadth of disclosure."],
+      hooks: ["Written Description = Did the inventor HAVE it? Enablement = Can OTHERS make it?"],
+      mpep: ["MPEP 2163"],
+      connects: ["Enablement §112(a)", "CIP Priority", "New Matter §132"],
+      notes: ""
+    },
+    {
+      title: "Enablement (§112(a))",
+      yield: "very-high",
+      rule: "Spec must enable PHOSITA to make AND use the full scope of the claimed invention without undue experimentation. Enablement ≠ Written Description — these are separate requirements.",
+      details: [
+        "8 Wands factors: breadth of claim, nature of invention, predictability, amount of guidance, working examples, quantity of experimentation needed, state of prior art, PHOSITA skill",
+        "Must enable the ENTIRE claimed scope — not just specific embodiments",
+        "Unpredictable arts (bio, chem) need more disclosure than predictable arts (mechanical)"
+      ],
+      traps: ["'Inventor built one working embodiment' ≠ enabled the full claim scope if claim is broader than that embodiment."],
+      hooks: ["Enablement = Can PHOSITA make and use it? Wands factors determine 'undue experimentation'."],
+      mpep: ["MPEP 2164"],
+      connects: ["Written Description", "Full Scope Doctrine", "Functional Claiming"],
+      notes: ""
+    },
+    {
+      title: "Best Mode (§112(a))",
+      yield: "moderate",
+      rule: "Inventor must disclose the best mode for carrying out the invention known at time of filing. Two-part test: (1) did inventor have a best mode? (2) was it adequately disclosed?",
+      details: [
+        "AIA change: failure to disclose best mode CANNOT be used to invalidate a patent in litigation",
+        "Still required during prosecution — can result in §112(a) rejection",
+        "Evaluated at filing date — not at time of trial",
+        "Subjective test for Part 1 (inventor's own belief)"
+      ],
+      traps: [],
+      hooks: ["AIA = best mode still required for prosecution, but can't invalidate an issued patent."],
+      mpep: ["MPEP 2165"],
+      connects: ["Written Description", "Enablement"],
+      notes: ""
+    },
+    {
+      title: "Definiteness (§112(b))",
+      yield: "high",
+      rule: "Claim must inform PHOSITA with reasonable certainty about scope. Nautilus (2014) = reasonable certainty standard. Terms like 'efficient,' 'thin,' 'high quality' not automatically indefinite if spec provides standard.",
+      details: [
+        "Means-plus-function + no disclosed structure → indefinite",
+        "Purely subjective terms without spec guidance → indefinite",
+        "Prosecution history can inform scope and save borderline terms"
+      ],
+      traps: ["'Approximately' is not automatically indefinite. Context and spec guidance matter."],
+      hooks: [],
+      mpep: ["MPEP 2173"],
+      connects: ["§112(f) MPF", "§112(a) WD", "BRI"],
+      notes: ""
+    },
+    {
+      title: "New Matter (§132)",
+      yield: "high",
+      rule: "After filing: cannot add new matter to spec. If attempted → amendment not entered, file CIP instead. Claim without support ≠ new matter (that's §112(a)). Adding new text to spec that wasn't there = §132.",
+      details: [
+        "§112(a) rejection: claim broader than spec support",
+        "§132 objection: trying to add NEW text/disclosure to spec",
+        "CIP is the vehicle for adding new matter — gets new filing date for new matter"
+      ],
+      traps: ["§112(a) (claim lacks support) vs §132 (spec amendment adds new matter) are DIFFERENT rejections. Know which is which."],
+      hooks: ["No support in spec → §112(a). Trying to ADD to spec → §132."],
+      mpep: ["MPEP 608.04"],
+      connects: ["CIP", "Written Description", "Amendment Practice"],
+      notes: ""
+    },
+    {
+      title: "Full Scope / Functional Claiming Danger Zone",
+      yield: "high",
+      rule: "Claim must be enabled across its FULL scope. Purely functional claims may trigger §112(f), raise WD issues, and raise enablement issues. Common in biotech scenarios.",
+      details: [
+        "1,000 possible variations but only 2 described → may fail enablement for full scope",
+        "Functional claiming without structural support → likely §112(f) + WD problems",
+        "High-yield in unpredictable arts (biotech, chemistry)"
+      ],
+      traps: [],
+      hooks: [],
+      mpep: ["MPEP 2164", "MPEP 2181"],
+      connects: ["Enablement", "Written Description", "§112(f) MPF"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 6, title: "Restriction Practice", mpep: "MPEP 800",
+  sub: "When can the examiner force you to split your inventions?",
+  topics: [
+    {
+      title: "What Is a Restriction Requirement?",
+      yield: "high",
+      rule: "If application claims two or more independent and distinct inventions → examiner may require applicant to elect one and withdraw the others. Examiner must show inventions are independent or distinct AND there would be a serious search burden.",
+      details: [
+        "Applicant elects one invention for examination",
+        "Non-elected claims are withdrawn — NOT rejected",
+        "Restriction must be justified — not automatic just because multiple inventions are claimed"
+      ],
+      traps: ["Withdrawn ≠ rejected. Withdrawn claims are set aside, not permanently dead."],
+      hooks: [],
+      mpep: ["MPEP 803"],
+      connects: ["Election", "Divisional", "Rejoinder"],
+      notes: ""
+    },
+    {
+      title: "Election of Species",
+      yield: "high",
+      rule: "If claim covers a genus with multiple species, examiner may require election of one species for examination.",
+      details: [
+        "Applicant elects one species",
+        "If elected species is allowed, other species may get examination (rejoinder)",
+        "Common in chemistry/biotech with genus claims"
+      ],
+      traps: [],
+      hooks: [],
+      mpep: ["MPEP 806.04"],
+      connects: ["Restriction", "Rejoinder", "Genus Claims"],
+      notes: ""
+    },
+    {
+      title: "Traverse & Waiver",
+      yield: "moderate",
+      rule: "Applicant can traverse (argue restriction is improper) or not traverse. If you do NOT traverse at time of election → you waive the right to challenge the restriction later.",
+      details: [
+        "Traverse must be made at time of election — cannot raise later",
+        "Traversal preserves right to petition if restriction is improper",
+        "Not traversing = implicitly agreeing restriction was proper"
+      ],
+      traps: ["Fail to traverse at election time = waive forever. This is a timing trap."],
+      hooks: [],
+      mpep: ["MPEP 821"],
+      connects: ["Election", "Divisional", "Petition Practice"],
+      notes: ""
+    },
+    {
+      title: "Rejoinder",
+      yield: "high",
+      rule: "If: you elect invention A, examiner allows claims to A — then claims to non-elected invention may be rejoined automatically IF they depend on allowed claims and require all limitations of the allowed claim.",
+      details: [
+        "Rejoinder is automatic when conditions are met",
+        "Only applies if non-elected claim incorporates all limitations of allowed claim",
+        "Rejoined claims are then examined"
+      ],
+      traps: ["Rejoinder only works if the non-elected claim includes ALL limitations of the allowed independent claim."],
+      hooks: ["Rejoinder = winning non-elected claims back by riding on allowed claims."],
+      mpep: ["MPEP 821.04"],
+      connects: ["Election", "Restriction", "Divisional"],
+      notes: ""
+    },
+    {
+      title: "Divisional & Safe Harbor",
+      yield: "very-high",
+      rule: "Divisional filed in response to restriction → (1) gets parent filing date, (2) protected from obviousness-type double patenting against parent (safe harbor). This is UNIQUE to true divisionals. Continuation/CIP do NOT get this protection automatically.",
+      details: [
+        "Must be filed in response to restriction — calling it 'divisional' alone doesn't make it one",
+        "Safe harbor = cannot be rejected for ODP over the parent application",
+        "Terminal disclaimer: disclaims patent term beyond earlier patent + requires common ownership"
+      ],
+      traps: ["Continuation filed without a restriction ≠ divisional. No restriction = no safe harbor."],
+      hooks: ["Divisional safe harbor = restriction shield against double patenting."],
+      mpep: ["MPEP 804.01"],
+      connects: ["Double Patenting", "Restriction", "Terminal Disclaimer"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 7, title: "Prosecution & Replies", mpep: "MPEP 700",
+  sub: "Did the applicant properly respond? What procedural move is available?",
+  topics: [
+    {
+      title: "Non-Final Office Action",
+      yield: "high",
+      rule: "First substantive rejection is normally non-final. Applicant must file a timely AND complete reply addressing every ground of rejection — either argue or amend. Ignoring one rejection → incomplete reply → abandonment.",
+      details: [
+        "Must respond within time set in OA (usually 3 months, extendable to 6)",
+        "Every rejection must be addressed — argument or amendment for each",
+        "After non-final: examiner can make next OA final"
+      ],
+      traps: ["Responding to §102 rejection but ignoring §112 rejection = incomplete reply = abandonment."],
+      hooks: [],
+      mpep: ["MPEP 706"],
+      connects: ["Final OA", "Extensions", "Abandonment", "Reply Requirements"],
+      notes: ""
+    },
+    {
+      title: "Final Office Action",
+      yield: "high",
+      rule: "Final rejection = examiner closing prosecution. Options: appeal, RCE, or after-final amendment (limited). After-final amendment that doesn't place case in condition for allowance or cancel claims → examiner may refuse entry.",
+      details: [
+        "Advisory Action: examiner's response to after-final amendment",
+        "After final: can still cancel claims, amend to place in allowance condition",
+        "Examiner has DISCRETION to enter after-final amendments",
+        "If not entered and deadline passes → abandonment"
+      ],
+      traps: ["Any amendment does NOT automatically work after final. Examiner can refuse."],
+      hooks: [],
+      mpep: ["MPEP 714"],
+      connects: ["RCE", "Appeal", "After-Final Practice", "Abandonment"],
+      notes: ""
+    },
+    {
+      title: "RCE (Request for Continued Examination)",
+      yield: "very-high",
+      rule: "Filed after final to reopen prosecution. Effect: withdraws finality, examiner issues new non-final OA. RCE keeps same application. Continuation is a new application — do not confuse them.",
+      details: [
+        "Must file before abandonment (or with revival)",
+        "Pay fee + submission (e.g., amendment, IDS, etc.)",
+        "Reopens prosecution from scratch — new non-final action follows",
+        "Can file multiple RCEs"
+      ],
+      traps: ["RCE ≠ continuation. RCE = same application, same serial number. Continuation = new application."],
+      hooks: ["RCE = 'please reconsider.' Continuation = 'I'm filing again with new claims.'"],
+      mpep: ["MPEP 706.07(h)"],
+      connects: ["Continuation", "Appeal", "Final OA", "After-Final"],
+      notes: ""
+    },
+    {
+      title: "Extensions of Time (1.136(a))",
+      yield: "very-high",
+      rule: "Most OA deadlines extendable up to 6 months from mailing. Pay extension fee. 1.136(a) = extension before abandonment. 1.137 = revival AFTER abandonment. Do NOT mix these.",
+      details: [
+        "Extensions are available month-by-month (1–5 one-month extensions)",
+        "Must be filed before expiration of the extended period",
+        "Some deadlines are NOT extendable (e.g., issue fee, national stage entry)",
+        "Reply period = 3 months statutory, extendable to 6 months with fee"
+      ],
+      traps: ["Issue fee deadline is NOT extendable under 1.136(a). Neither is national stage entry deadline."],
+      hooks: ["1.136(a) = extend before deadline. 1.137 = revive after you missed it."],
+      mpep: ["MPEP 710"],
+      connects: ["Abandonment", "Revival 1.137", "Final OA"],
+      notes: ""
+    },
+    {
+      title: "What Counts as a Complete Reply",
+      yield: "very-high",
+      rule: "Reply must address ALL rejections. Partial response (ignoring even one rejection) = incomplete = abandonment. Merely saying 'I disagree' without argument or amendment is not sufficient.",
+      details: [
+        "Must argue or amend each rejection",
+        "IDS filed alone is not a complete reply to an OA",
+        "Must be signed by registered practitioner or inventor"
+      ],
+      traps: ["'I disagree with this rejection' alone is not a complete reply. Must provide substantive argument or amendment."],
+      hooks: [],
+      mpep: ["MPEP 714"],
+      connects: ["Non-Final OA", "Final OA", "Abandonment"],
+      notes: ""
+    },
+    {
+      title: "Revival (1.137)",
+      yield: "high",
+      rule: "After abandonment: petition + fee + showing of unintentional delay. Not automatic. Revival under 1.137 restores application to pending status.",
+      details: [
+        "Must show delay was unintentional from the beginning",
+        "File petition, pay revival fee, file any outstanding reply",
+        "Intervening rights may attach after abandonment period"
+      ],
+      traps: ["Revival is not automatic — must actively petition and pay."],
+      hooks: [],
+      mpep: ["MPEP 711.03(c)"],
+      connects: ["Abandonment", "Extensions 1.136(a)", "Petitions"],
+      notes: ""
+    },
+    {
+      title: "IDS & Duty of Disclosure",
+      yield: "high",
+      rule: "<p>Each individual associated with filing or prosecution has a duty to disclose all information known to be material to patentability. Fulfilled by filing an <strong style='color:#7df9e8'>Information Disclosure Statement (IDS)</strong>.</p><p>The duty is individual — it applies to inventors, attorneys, and agents.</p>",
+      details: [
+        "IDS must be filed within 3 months of filing or before first OA, whichever is later (to avoid fee)",
+        "If filed later: must pay fee OR certify no prior art was cited in a related application",
+        "<strong>37 CFR 1.56:</strong> duty to disclose material prior art, prior art rejections, and prior art cited in related foreign applications",
+        "Prior art is material if it is not cumulative and establishes or is relevant to a prima facie case of unpatentability",
+        "Failure to disclose material art with intent to deceive = <em>inequitable conduct</em> → patent unenforceable"
+      ],
+      traps: ["Inequitable conduct requires both: (1) materiality AND (2) intent to deceive. Missing one = not inequitable conduct. This is harder to prove after Therasense (2011)."],
+      hooks: ["<strong>IDS = disclose everything material. Intent to deceive + material art = inequitable conduct = unenforceable patent.</strong>"],
+      mpep: ["MPEP 609", "MPEP 2001"],
+      connects: ["Prosecution", "Abandonment", "Inequitable Conduct"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 8, title: "Continuing Applications", mpep: "MPEP 200–201",
+  sub: "Continuation, CIP, Divisional, RCE — How they connect and differ",
+  topics: [
+    {
+      title: "Continuation",
+      yield: "very-high",
+      rule: "Filed before parent issues or abandons. Same specification — no new matter. New claims. Gets parent's filing date for all supported claims.",
+      details: [
+        "Must be co-pending with parent at time of filing",
+        "Can file multiple continuations",
+        "Claims must be supported by parent spec — no new matter",
+        "Common use: pursue different claim scope after parent issues"
+      ],
+      traps: ["Continuation adds new disclosure = not a continuation, it's a CIP."],
+      hooks: ["Continuation = same spec, different claims."],
+      mpep: ["MPEP 201.07"],
+      connects: ["CIP", "Divisional", "Effective Filing Date", "AIA §102"],
+      notes: ""
+    },
+    {
+      title: "CIP (Continuation-In-Part)",
+      yield: "very-high",
+      rule: "Adds new matter. Filed before parent issues/abandons. Old matter → gets old filing date. New matter → gets new filing date. Intervening art between old and new date may apply to new matter claims.",
+      details: [
+        "Split priority is the KEY testable issue",
+        "Each claim evaluated separately for which date it's entitled to",
+        "Claim relying on new matter → new (later) date → more prior art applies"
+      ],
+      traps: ["Classic trap: CIP filed 2022, parent filed 2020. Art from 2021 can defeat claims based on new matter but NOT claims based only on old disclosure."],
+      hooks: ["CIP split priority: OLD disclosure = OLD date, NEW disclosure = NEW date."],
+      mpep: ["MPEP 201.08"],
+      connects: ["Continuation", "Effective Filing Date", "New Matter §132", "§102 Analysis"],
+      notes: ""
+    },
+    {
+      title: "Divisional",
+      yield: "very-high",
+      rule: "Filed in response to restriction requirement. Contains only carved-out subject matter. No new matter. Gets parent's filing date. Safe harbor: protected from ODP against parent.",
+      details: [
+        "Must actually be filed in response to a restriction — label alone doesn't count",
+        "Safe harbor is UNIQUE to true divisionals",
+        "Continuation and CIP do NOT automatically get safe harbor"
+      ],
+      traps: ["Calling it a 'divisional' doesn't make it one — must be in response to an actual restriction requirement."],
+      hooks: ["Divisional = restriction shield + parent filing date."],
+      mpep: ["MPEP 201.06"],
+      connects: ["Restriction Practice", "Safe Harbor", "Double Patenting", "ODP"],
+      notes: ""
+    },
+    {
+      title: "RCE (Not a Continuing Application)",
+      yield: "very-high",
+      rule: "RCE: same application, after final rejection, reopens prosecution. Does NOT create new application or new filing date. Must file before abandonment (or with revival).",
+      details: [
+        "RCE withdraws finality — next OA is non-final",
+        "Must include fee + submission",
+        "Can file multiple RCEs",
+        "No new EFD created"
+      ],
+      traps: ["Students confuse RCE with continuation. RCE = same app. Continuation = new app."],
+      hooks: ["RCE = restart examination in same application. Continuation = new application, same invention."],
+      mpep: ["MPEP 706.07(h)"],
+      connects: ["Final OA", "Continuation", "Prosecution Bucket 7"],
+      notes: ""
+    },
+    {
+      title: "Timing: When Must They Be Filed?",
+      yield: "high",
+      rule: "Continuation, CIP, and Divisional MUST be filed before the parent issues OR before the parent is abandoned. If filed after issuance → cannot claim priority.",
+      details: [
+        "Co-pendency is required",
+        "File continuation on same day as parent issues = too late (must be BEFORE)",
+        "Allowed application: file continuation before issue fee is paid or before it issues"
+      ],
+      traps: ["Day parent issues = too late to file a continuing application claiming its priority."],
+      hooks: [],
+      mpep: ["MPEP 211.01"],
+      connects: ["Effective Filing Date", "CIP", "Continuation", "Divisional"],
+      notes: ""
+    },
+    {
+      title: "Double Patenting",
+      yield: "high",
+      rule: "<p><strong style='color:#7df9e8'>Statutory double patenting:</strong> Two patents claim identical subject matter. Absolute bar — cannot be overcome.</p><p><strong style='color:#ff9de2'>Obviousness-type double patenting (ODP):</strong> Claims in two patents/applications are not identical but are obvious variants of each other. Can be overcome by filing a <strong>terminal disclaimer</strong>.</p>",
+      details: [
+        "Terminal disclaimer: disclaim any patent term beyond the earlier patent's expiration + require common ownership of both patents throughout their term",
+        "<strong>Divisional safe harbor:</strong> A true divisional filed in response to restriction is immune from ODP against its parent — this protection is unique to divisionals",
+        "Continuations and CIPs do NOT automatically get safe harbor from ODP",
+        "ODP can arise between two pending applications (not just issued patents)"
+      ],
+      traps: ["Safe harbor only protects divisionals filed in response to a restriction. A continuation filed without any restriction = no safe harbor, so ODP can still be used against it."],
+      hooks: ["<strong>Statutory DP = identical claims, no fix. ODP = obvious variants, fix with terminal disclaimer.</strong>"],
+      mpep: ["MPEP 804"],
+      connects: ["Divisional Safe Harbor", "Terminal Disclaimer", "Restriction Practice"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 9, title: "Appeals (Ex Parte to PTAB)", mpep: "MPEP 1200",
+  sub: "During prosecution only — NOT IPR/PGR",
+  topics: [
+    {
+      title: "When Can You Appeal?",
+      yield: "high",
+      rule: "May appeal to PTAB after: final rejection OR second rejection of the same claim. Must have at least one rejected claim to appeal.",
+      details: [
+        "Cannot appeal non-final rejections",
+        "Second rejection of same claim = constructive finality = can appeal",
+        "Appeal is to the Patent Trial and Appeal Board (PTAB)"
+      ],
+      traps: ["Appeal is only available after FINAL or TWICE rejected. Cannot appeal a non-final OA."],
+      hooks: [],
+      mpep: ["MPEP 1201"],
+      connects: ["Final OA", "Notice of Appeal", "RCE vs Appeal"],
+      notes: ""
+    },
+    {
+      title: "Notice of Appeal & Appeal Brief",
+      yield: "very-high",
+      rule: "Step 1: File Notice of Appeal within period for reply to OA (including extensions). Step 2: File Appeal Brief within 2 months from Notice (extendable). Failure at either step → abandonment.",
+      details: [
+        "Notice of Appeal does NOT stop all deadlines",
+        "Appeal Brief must include: statement of issues, argument, claims appendix, evidence citations",
+        "Missing Appeal Brief = abandonment"
+      ],
+      traps: ["Filing Notice of Appeal doesn't freeze time. You STILL must file the Appeal Brief on time."],
+      hooks: ["Notice → Brief → Board (or examiner answers first)."],
+      mpep: ["MPEP 1205"],
+      connects: ["Appeal Timeline", "Examiner's Answer", "Abandonment"],
+      notes: ""
+    },
+    {
+      title: "Examiner's Answer & New Grounds",
+      yield: "moderate",
+      rule: "After Appeal Brief: examiner may file Answer, reopen prosecution, or allow claims. Examiner MAY introduce new grounds of rejection in Answer. If new ground → applicant can reopen prosecution OR maintain appeal.",
+      details: [
+        "New ground in Examiner's Answer gives applicant two choices",
+        "If maintain appeal → must file Reply Brief addressing new ground",
+        "If reopen prosecution → resets back to non-final stage"
+      ],
+      traps: ["New ground in Examiner's Answer is a trap — must respond within time or abandon."],
+      hooks: [],
+      mpep: ["MPEP 1208"],
+      connects: ["Appeal Brief", "PTAB Decision", "Reopening Prosecution"],
+      notes: ""
+    },
+    {
+      title: "PTAB Decision",
+      yield: "moderate",
+      rule: "PTAB may: affirm, reverse, or affirm-in-part. If affirmed → application abandoned unless further action taken (request rehearing, appeal to Fed. Circuit). Examiner can also reopen prosecution instead of Board deciding.",
+      details: [
+        "After PTAB affirms: can request rehearing or appeal to Federal Circuit",
+        "Examiner can reopen prosecution before Board decides (resets to non-final)",
+        "If reversed → examiner must allow unless finds new ground"
+      ],
+      traps: [],
+      hooks: [],
+      mpep: ["MPEP 1213"],
+      connects: ["Notice of Appeal", "Federal Circuit", "Reopening Prosecution"],
+      notes: ""
+    },
+    {
+      title: "Federal Circuit & Beyond (Low Yield)",
+      yield: "low",
+      rule: "<p>After PTAB decision, applicant can appeal to the <strong style='color:#7df9e8'>U.S. Court of Appeals for the Federal Circuit</strong> — the specialized appellate court for patent matters.</p><p>Alternatively, applicant can file a civil action in <strong style='color:#ff9de2'>U.S. District Court</strong> under 35 USC §145 (civil action against Director).</p>",
+      details: [
+        "Federal Circuit applies de novo review to legal questions (claim construction), clear error to factual findings",
+        "§145 civil action allows introduction of new evidence not before the USPTO",
+        "After Federal Circuit: can petition to U.S. Supreme Court (cert rarely granted in patent cases)",
+        "Both options available after exhausting PTAB remedies"
+      ],
+      traps: [],
+      hooks: ["<strong>PTAB → Federal Circuit → Supreme Court.</strong> Or skip Federal Circuit and go to District Court under §145."],
+      mpep: ["MPEP 1216"],
+      connects: ["PTAB Decision", "Ex Parte Appeal", "Civil Action §145"],
+      notes: ""
+    },
+    {
+      title: "RCE vs Appeal Strategy",
+      yield: "high",
+      rule: "After final rejection, applicant chooses: Appeal (go to Board) OR RCE (reopen prosecution). They are alternatives. RCE abandons appeal; appeal does not prevent later RCE.",
+      details: [
+        "RCE withdraws the appeal if one was filed",
+        "Appeal is better when legal issue needs Board resolution",
+        "RCE is better when new claims or evidence might overcome rejection",
+        "Both options start from the same place: final rejection"
+      ],
+      traps: [],
+      hooks: ["Appeal = fight the rejection. RCE = try again with different claims/arguments."],
+      mpep: ["MPEP 1204"],
+      connects: ["Final OA", "RCE", "Notice of Appeal"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 10, title: "Post-Issuance Proceedings", mpep: "MPEP 1400 / 2200 / 2600",
+  sub: "Reissue, Reexam, PGR, IPR — after the patent grants",
+  topics: [
+    {
+      title: "Reissue",
+      yield: "high",
+      rule: "Patent owner may file reissue to correct error in patent. Broadening reissue: must file within 2 years of issuance. Narrowing reissue: no 2-year limit. Cannot add new matter. Entire patent is re-examined.",
+      details: [
+        "Only patent owner may file — NOT third parties",
+        "Must identify and explain the error",
+        "Recapture rule: cannot recapture claim scope surrendered during prosecution",
+        "Broadening reissue can be used to fix claims that were too narrow"
+      ],
+      traps: ["Reissue is NOT for third parties. Only the patent owner. Also: recapture rule bars getting back what you gave up."],
+      hooks: ["Reissue = patent owner's tool. 2-year limit only for BROADENING."],
+      mpep: ["MPEP 1400"],
+      connects: ["Double Patenting", "Prosecution History Estoppel", "Post-Grant"],
+      notes: ""
+    },
+    {
+      title: "Ex Parte Reexamination",
+      yield: "high",
+      rule: "Available to any person (including patent owner). Grounds: patents and printed publications only (§102 and §103). No §101 or §112 issues allowed. Requester has very limited participation after initiation.",
+      details: [
+        "Any person can request — anonymously if desired",
+        "Raises 'substantial new question of patentability' (SNQ) standard",
+        "Requester has little to no further role after filing the request",
+        "Third party requesters are largely excluded from proceedings"
+      ],
+      traps: ["Cannot raise §101 or §112 in ex parte reexam. Only prior art (patents + printed publications)."],
+      hooks: ["Ex parte reexam = anyone can start it, but only owner fights it."],
+      mpep: ["MPEP 2210"],
+      connects: ["IPR", "PGR", "§102", "§103"],
+      notes: ""
+    },
+    {
+      title: "Post-Grant Review (PGR)",
+      yield: "very-high",
+      rule: "Available ONLY within 9 months of patent grant. Grounds: §101, §102, §103, §112 (except best mode). BROAD attack window. Memory anchor: PGR = Early + Broad.",
+      details: [
+        "Must be filed within 9 months of grant or reissue",
+        "Most grounds available — only best mode excluded from §112",
+        "Third party petitions PTAB",
+        "Higher threshold to institute: 'more likely than not' at least one claim is unpatentable"
+      ],
+      traps: ["After 9 months → cannot use PGR. Must use IPR (narrower grounds)."],
+      hooks: ["PGR = Early (9 months) + Broad (all grounds). IPR = Later + Narrow (prior art only)."],
+      mpep: ["MPEP 2600"],
+      connects: ["IPR", "Estoppel", "PTAB"],
+      notes: ""
+    },
+    {
+      title: "Inter Partes Review (IPR)",
+      yield: "very-high",
+      rule: "Available after 9 months from grant OR after PGR ends. Grounds: §102 and §103 ONLY using patents and printed publications. No §101 or §112. Memory anchor: IPR = Later + Narrower.",
+      details: [
+        "Third party petitions PTAB",
+        "Threshold to institute: 'reasonable likelihood' petitioner prevails on at least one claim",
+        "Both petitioner and patent owner participate in proceedings",
+        "Much more adversarial than ex parte reexam"
+      ],
+      traps: ["IPR cannot raise §101 or §112. Only prior art (patents and printed publications)."],
+      hooks: ["IPR = after 9 months, patents/publications only, both sides fight."],
+      mpep: ["MPEP 2600"],
+      connects: ["PGR", "Estoppel", "§102", "§103"],
+      notes: ""
+    },
+    {
+      title: "Estoppel (IPR/PGR)",
+      yield: "high",
+      rule: "If petitioner raises (or reasonably could have raised) an issue in IPR/PGR → they may be estopped from raising it again later in court or before USPTO.",
+      details: [
+        "IPR estoppel: grounds that were raised OR could have been raised",
+        "PGR estoppel: similarly broad",
+        "Estoppel applies to the petitioner and real parties in interest",
+        "Strategic consideration: what you raise in IPR you can't use later"
+      ],
+      traps: [],
+      hooks: ["File IPR, lose on a ground you raised → can't raise it again in court."],
+      mpep: ["MPEP 2686.04"],
+      connects: ["IPR", "PGR", "Invalidity Defenses"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 11, title: "PCT (Patent Cooperation Treaty)", mpep: "MPEP 1800",
+  sub: "Preserves international rights — does NOT grant an international patent",
+  topics: [
+    {
+      title: "Core PCT Timeline (Memorize Cold)",
+      yield: "very-high",
+      rule: "Day 0 = Priority Date → ~16 months: ISR + Written Opinion → 18 months: International Publication → ~19 months: Demand for Chapter II (optional) → 30 months: National Stage Entry (U.S. deadline).",
+      details: [
+        "All dates calculated from PRIORITY DATE (not PCT filing date unless no priority claimed)",
+        "18-month publication makes application public",
+        "30-month national stage deadline is absolute for the U.S. — no extension",
+        "Failure to enter national stage by 30 months → abandoned as to U.S."
+      ],
+      traps: ["30-month deadline has NO extensions for U.S. national stage. Miss it = abandoned in the U.S."],
+      hooks: ["16 → ISR. 18 → Published. 19 → Demand (optional). 30 → National Stage. Done."],
+      mpep: ["MPEP 1800"],
+      connects: ["National Stage Entry", "Chapter I vs II", "Effective Filing Date"],
+      notes: ""
+    },
+    {
+      title: "Chapter I vs Chapter II",
+      yield: "high",
+      rule: "Chapter I: default — receive ISR + Written Opinion from ISA. Chapter II: optional — file Demand by ~19 months to get International Preliminary Examination (IPRP from IPEA). Neither is binding on national offices.",
+      details: [
+        "ISA = International Searching Authority (performs search)",
+        "IPEA = International Preliminary Examining Authority (examines if Chapter II requested)",
+        "Chapter II report (IPRP) is still not binding — national offices make own decisions",
+        "Chapter II may give better negotiating position with national offices"
+      ],
+      traps: ["ISA and IPEA are different bodies. ISA does the search. IPEA does the examination (Chapter II only)."],
+      hooks: ["Chapter I = just search. Chapter II = search + examination (your choice)."],
+      mpep: ["MPEP 1840"],
+      connects: ["PCT Timeline", "National Stage", "ISR"],
+      notes: ""
+    },
+    {
+      title: "National Stage Entry (U.S.)",
+      yield: "very-high",
+      rule: "Must enter U.S. national stage by 30 months from priority date. Must file: translation (if required), fees, and basic requirements. Failure → abandoned as to U.S. Once entered, prosecuted under U.S. rules.",
+      details: [
+        "35 USC 371 governs national stage entry",
+        "After entry, application is treated like a U.S. nonprovisional",
+        "Claims can be amended at national stage entry",
+        "Article 19 amendments (claims) and Article 34 amendments (Chapter II) don't automatically amend U.S. claims"
+      ],
+      traps: ["Article 19/34 PCT amendments do NOT automatically become U.S. amendments. Must re-file in national stage."],
+      hooks: [],
+      mpep: ["MPEP 1893"],
+      connects: ["PCT Timeline", "35 USC 371", "Chapter I vs II"],
+      notes: ""
+    },
+    {
+      title: "PCT & Priority / Effective Filing Date",
+      yield: "high",
+      rule: "PCT filing can claim priority to earlier U.S. or foreign filing within 12 months (Paris Convention). PCT application gets priority date from earlier filing. This EFD matters for AIA §102 analysis.",
+      details: [
+        "Paris Convention: 12-month priority window",
+        "PCT application can serve as the priority document for later national filings",
+        "EFD of U.S. national stage = EFD of PCT = EFD of priority application (if properly claimed)"
+      ],
+      traps: [],
+      hooks: ["PCT priority = Paris Convention priority. 12 months from first filing."],
+      mpep: ["MPEP 1828"],
+      connects: ["Effective Filing Date", "AIA §102", "Paris Convention"],
+      notes: ""
+    },
+    {
+      title: "Paris Convention Priority (§119(a))",
+      yield: "high",
+      rule: "<p><strong style='color:#7df9e8'>Paris Convention</strong>: International treaty giving applicants a <strong>12-month priority window</strong> to file in member countries after their first filing.</p><p>The later filing claims the <strong style='color:#ff9de2'>priority date</strong> of the first foreign filing for §102 purposes — prior art arising between the two filing dates cannot defeat the claim.</p>",
+      details: [
+        "Must file in second country within 12 months of first filing",
+        "Priority claim requires: copy of original foreign application + translation (if not English)",
+        "Certified copy must be filed in USPTO within time period set in rule",
+        "170+ member countries — most major patent countries are members",
+        "Design patents: 6-month Paris Convention priority window (not 12)"
+      ],
+      table: {
+        heads: ["Feature", "Paris Convention §119", "PCT §363"],
+        colClass: ["", "col-a", "col-b"],
+        rows: [
+          ["Priority Window", "12 months (6 for design)", "12 months"],
+          ["Geographic Scope", "Country by country", "Single filing, 150+ countries"],
+          ["Exam Process", "National offices each examine", "ISA search, then national phase"],
+          ["National Phase Deadline", "12 months from priority", "30 months from priority"],
+          ["Cost Timing", "Upfront in each country", "Delayed to 30-month national phase"]
+        ]
+      },
+      traps: ["Design patent Paris Convention priority = 6 months, not 12. Very testable distinction."],
+      hooks: ["<strong>Utility: 12 months. Design: 6 months.</strong> Paris Convention lets you lock in priority date across countries without filing everywhere immediately."],
+      mpep: ["MPEP 213", "MPEP 214"],
+      connects: ["PCT Filing", "Effective Filing Date", "AIA §102"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 12, title: "Fees & Entity Status", mpep: "MPEP 500",
+  sub: "Entity status, maintenance fees, issue fees, extensions",
+  topics: [
+    {
+      title: "Entity Status",
+      yield: "high",
+      rule: "Three categories: Large entity (baseline 100%), Small entity (pays 40% of large), Micro entity (pays 20% of large). Small entity asserted by paying small entity fee — no separate declaration required.",
+      details: [
+        "Small entity: independent inventor, small business (<500 employees), nonprofit",
+        "Micro entity: income ≤3× U.S. median household income, ≤4 prior nonprovisional filings, no obligation to assign to non-micro",
+        "Must qualify at time of each payment — not just at filing",
+        "Wrong fee paid in good faith → correctable, patent not automatically invalid"
+      ],
+      traps: ["Paying small entity fee when you have a large entity assignee = error (but correctable if good faith)."],
+      hooks: ["Large = 100%. Small = 40%. Micro = 20%."],
+      mpep: ["MPEP 509"],
+      connects: ["Filing Fees", "Track One", "Maintenance Fees"],
+      notes: ""
+    },
+    {
+      title: "Issue Fee",
+      yield: "very-high",
+      rule: "After Notice of Allowance: must pay issue fee within 3 months. Failure → abandonment. No extension beyond allowed time (except revival under 1.137).",
+      details: [
+        "3-month period from NOA mailing date",
+        "NOT extendable under 1.136(a)",
+        "Revival possible if delay was unintentional",
+        "Must also pay publication fee if applicable"
+      ],
+      traps: ["Issue fee deadline is NOT extendable under 1.136(a). It's a hard deadline (except revival)."],
+      hooks: ["Issue fee: 3 months from NOA, no extensions."],
+      mpep: ["MPEP 1306"],
+      connects: ["Abandonment", "Revival 1.137", "Allowance"],
+      notes: ""
+    },
+    {
+      title: "Maintenance Fees",
+      yield: "very-high",
+      rule: "Due at 3.5, 7.5, and 11.5 years after grant (utility only). 6-month grace period with surcharge. Failure to pay → patent expires. Can petition for late payment if delay was unintentional.",
+      details: [
+        "Design and plant patents do NOT have maintenance fees",
+        "Grace period: 6 months after due date with surcharge",
+        "After grace period: petition to accept late payment (must show unintentional)",
+        "Expired patent cannot be licensed (no rights left)"
+      ],
+      traps: ["Design and plant patents have NO maintenance fees. Only utility patents."],
+      hooks: ["3.5 / 7.5 / 11.5 years. Miss it + grace = expired."],
+      mpep: ["MPEP 2500"],
+      connects: ["Issue Fee", "Entity Status", "Patent Term"],
+      notes: ""
+    },
+    {
+      title: "Track One (Prioritized Examination)",
+      yield: "moderate",
+      rule: "Requires: additional fee, ≤4 independent claims, ≤30 total claims, NO multiple dependent claims. Failure to meet requirements → Track One dismissed (not fatal to application).",
+      details: [
+        "Goal: final disposition within 12 months",
+        "No multiple dependent claims allowed",
+        "Limited to nonprovisional utility applications",
+        "Can request Track One at filing or after filing"
+      ],
+      traps: ["Multiple dependent claims in a Track One application → Track One dismissed. Application continues normally, just loses Track One status."],
+      hooks: [],
+      mpep: ["MPEP 708.02(b)"],
+      connects: ["Multiple Dependent Claims", "Filing Fees", "Entity Status"],
+      notes: ""
+    },
+    {
+      title: "Extensions of Time (Connection to Bucket 7)",
+      yield: "high",
+      rule: "Under 1.136(a): extension fee required, must be filed within 6 months from mailing. Failure to pay → abandonment. 1.136(a) = BEFORE abandonment. 1.137 = revival AFTER abandonment.",
+      details: [
+        "Extensions are 1-month increments",
+        "Maximum 5 one-month extensions (= 6 months total from mailing)",
+        "Some deadlines are NOT extendable: issue fee, national stage entry, some inter partes deadlines"
+      ],
+      traps: ["1.136(a) and 1.137 are different. Use the wrong one = wasted effort."],
+      hooks: ["1.136(a) = extend. 1.137 = revive. Know the difference."],
+      mpep: ["MPEP 710"],
+      connects: ["Abandonment", "Revival", "Final OA"],
+      notes: ""
+    },
+    {
+      title: "Patent Term Adjustment (PTA)",
+      yield: "moderate",
+      rule: "<p><strong style='color:#7df9e8'>PTA</strong> extends the 20-year patent term when the <strong>USPTO delays</strong> prosecution beyond statutory deadlines.</p><p>Three types of USPTO delay give rise to PTA: <strong style='color:#ff9de2'>A delays</strong> (failure to act within 14 months), <strong style='color:#ffe566'>B delays</strong> (failing to issue within 3 years of filing), and <strong style='color:#7df9e8'>C delays</strong> (interference, secrecy, appeals).</p>",
+      details: [
+        "A delay: USPTO fails to mail first OA within 14 months, or respond within 4 months, or issue within 4 months of issue fee",
+        "B delay: patent doesn't issue within 3 years of actual U.S. filing date",
+        "C delay: due to interference, secrecy order, or appellate review",
+        "Applicant delays reduce PTA — RCE, amendments after final, failure to respond timely",
+        "PTA runs from end of 20-year term; adds day-for-day based on each delay type",
+        "Subtract overlapping delays (don't double count)"
+      ],
+      traps: ["Applicant-caused delays (like filing an RCE) reduce PTA. RCE is NOT just free time — it costs PTA days."],
+      hooks: ["<strong>USPTO slow? You get more term. You slow things down? You lose PTA days.</strong>"],
+      mpep: ["MPEP 2730"],
+      connects: ["Patent Term", "RCE", "Maintenance Fees", "Abandonment"],
+      notes: ""
+    },
+    {
+      title: "Co-Ownership & Joint Inventors (§262)",
+      yield: "low",
+      rule: "<p>Under <strong style='color:#7df9e8'>35 USC §262</strong>, each joint owner of a patent may <strong>make, use, sell, and license</strong> the patented invention without the consent of, and without accounting to, the other co-owners.</p><p>This is very different from most property co-ownership — a joint owner can grant a <strong>nonexclusive license</strong> unilaterally.</p>",
+      details: [
+        "Joint inventorship: all who contributed to conception of at least one claim",
+        "Contribution to reduction to practice only = NOT a joint inventor",
+        "All joint inventors must be named — incorrect inventorship can invalidate patent (unless corrected)",
+        "Correction of inventorship: petition + fee, no deceptive intent",
+        "Co-owner cannot grant exclusive license without all co-owners' consent",
+        "Foreign co-ownership: 35 USC §262 applies to U.S. patents regardless of inventor nationality"
+      ],
+      traps: ["Each co-owner CAN license independently — this shocks people. The other co-owner gets no royalties and has no veto."],
+      hooks: ["<strong>Co-owners are independent operators.</strong> Either can license (non-exclusively) without the other's permission. But an exclusive license requires all co-owners to agree."],
+      mpep: ["MPEP 2137", "MPEP 301"],
+      connects: ["Joint Inventorship", "Assignments", "Exclusive License"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 13, title: "§101 Subject Matter Eligibility", mpep: "MPEP 2100",
+  sub: "Alice/Mayo two-step, abstract ideas, laws of nature, natural phenomena",
+  topics: [
+    {
+      title: "§101 Basics — Four Categories",
+      yield: "very-high",
+      rule: "<p>Patentable subject matter: <strong style='color:#7df9e8'>process, machine, manufacture, or composition of matter</strong> — plus improvements thereof.</p><p>Excluded: <strong style='color:#ff9de2'>laws of nature, natural phenomena, abstract ideas</strong>. These are judicial exceptions — not in the statute, but firmly established by the Supreme Court.</p>",
+      details: [
+        "Process: method steps; Machine: device; Manufacture: article; Composition: chemical compound",
+        "Business methods can be patentable (Bilski allowed method claims, but applied Alice test)",
+        "Software patents: not per se excluded, but must satisfy Alice/Mayo",
+        "Living organisms: patentable if human-made (Diamond v. Chakrabarty 1980)",
+        "Products of nature: NOT patentable (Association for Molecular Pathology v. Myriad — isolated DNA ≠ patentable)",
+        "Mental steps: abstract idea if claimable in purely mental form"
+      ],
+      traps: ["Myriad: isolated DNA not patentable (product of nature). BUT cDNA IS patentable (not naturally occurring). Very testable."],
+      hooks: ["<strong>4 boxes: process, machine, manufacture, composition.</strong> If it's not in a box, or falls in a judicial exception, §101 fails."],
+      mpep: ["MPEP 2106"],
+      connects: ["Alice/Mayo Two-Step", "Abstract Ideas", "Natural Phenomena"],
+      notes: ""
+    },
+    {
+      title: "Alice/Mayo Two-Step Framework",
+      yield: "very-high",
+      rule: "<p><strong style='color:#7df9e8'>Step 1:</strong> Does the claim fall within §101's four categories? If no → ineligible. If yes → Step 2.</p><p><strong style='color:#ff9de2'>Step 2A:</strong> Is the claim directed to a judicial exception (abstract idea, law of nature, natural phenomenon)?</p><p><strong style='color:#ffe566'>Step 2B:</strong> If yes — does the claim add an <em>inventive concept</em> that transforms the exception into a patent-eligible application? (Something significantly more than the exception itself?)</p>",
+      details: [
+        "Alice Corp. v. CLS Bank (2014) — applied Mayo framework to software/business methods",
+        "Mayo Collaborative Servs. v. Prometheus (2012) — law of nature (natural correlations) not patentable",
+        "Inventive concept ≠ just 'apply it on a computer' or 'apply it on the internet'",
+        "Generic computer components performing routine functions = not inventive concept",
+        "Must be 'significantly more' than the abstract idea itself",
+        "USPTO uses Revised Guidance (2019) to refine Step 2A into 2A Prong 1 and 2A Prong 2"
+      ],
+      table: {
+        heads: ["Prong", "Question", "Outcome if No"],
+        colClass: ["col-a", "", "col-b"],
+        rows: [
+          ["Step 1", "Within §101 category?", "Not eligible"],
+          ["Step 2A Prong 1", "Directed to judicial exception?", "Eligible (done)"],
+          ["Step 2A Prong 2", "Exception integrated into practical application?", "Go to Step 2B"],
+          ["Step 2B", "Inventive concept beyond exception?", "Not eligible (§101 rejection)"]
+        ]
+      },
+      traps: ["'Apply it on a computer' is NOT an inventive concept. Alice specifically rejected this. Don't fall for it on the exam."],
+      hooks: ["<strong>Alice = Mayo applied to software.</strong> Two steps: (1) Is it an exception? (2) Is there something MORE than the exception?"],
+      mpep: ["MPEP 2106.04", "MPEP 2106.05"],
+      connects: ["§101 Basics", "Abstract Ideas", "Myriad/Mayo", "Claims §112"],
+      notes: ""
+    },
+    {
+      title: "Abstract Ideas, Laws of Nature, Natural Phenomena",
+      yield: "high",
+      rule: "<p>Three judicial exceptions to §101 eligibility:</p><p><strong style='color:#7df9e8'>Abstract ideas</strong>: mathematical concepts, mental processes, certain methods of organizing human activity (e.g., financial hedging in Bilski).</p><p><strong style='color:#ff9de2'>Laws of nature</strong>: naturally occurring relationships, correlations, or principles (e.g., Mayo's natural metabolite thresholds).</p><p><strong style='color:#ffe566'>Natural phenomena</strong>: naturally occurring things, products of nature (e.g., isolated genomic DNA in Myriad).</p>",
+      details: [
+        "Bilski v. Kappos (2010): business method not per se excluded, but hedging was abstract idea",
+        "Mayo v. Prometheus (2012): drug metabolite correlations = law of nature, need more",
+        "Alice v. CLS Bank (2014): intermediated settlement = abstract idea on generic computer",
+        "Myriad (2013): isolated DNA = product of nature; cDNA = patent eligible",
+        "Enfish (Fed Cir 2016): software improving computer itself can pass Alice Step 2",
+        "Berkheimer (Fed Cir 2018): Step 2B inventive concept is factual question (can survive summary judgment)"
+      ],
+      traps: ["cDNA passes §101; isolated genomic DNA does not. Know the Myriad distinction cold."],
+      hooks: ["<strong>Abstract + computer = probably fails Alice. Law of nature + just 'apply it' = fails Mayo.</strong> Need something meaningfully more."],
+      mpep: ["MPEP 2106.04(a)", "MPEP 2106.04(b)"],
+      connects: ["Alice/Mayo Two-Step", "§101 Basics", "Obviousness §103"],
+      notes: ""
+    }
+  ]
+},
+{
+  num: 14, title: "Infringement", mpep: "MPEP 2131",
+  sub: "Literal infringement, DOE, direct/indirect, ITC",
+  topics: [
+    {
+      title: "Literal Infringement — All-Elements Rule",
+      yield: "high",
+      rule: "<p>Literal infringement: accused product/process must satisfy <strong style='color:#7df9e8'>every element</strong> of at least one patent claim, exactly as written.</p><p>Missing even one claim limitation = <strong style='color:#ff9de2'>no literal infringement</strong>.</p>",
+      details: [
+        "Claim construction first: courts determine what claim terms mean (de novo on appeal)",
+        "Compare construed claim to accused product element-by-element",
+        "Open-ended 'comprising' claims: accused product can have additional elements and still infringe",
+        "Closed 'consisting of' claims: any additional element = no infringement",
+        "Product claims: compare to accused product. Method claims: must perform every step"
+      ],
+      table: {
+        heads: ["Claim Type", "Transition Word", "Extra Elements OK?"],
+        colClass: ["col-a", "col-b", "col-c"],
+        rows: [
+          ["Open", "comprising / including", "Yes — still infringes"],
+          ["Closed", "consisting of", "No — any extra = no infringement"],
+          ["Partially closed", "consisting essentially of", "Only if don't materially affect basic/novel characteristics"]
+        ]
+      },
+      traps: ["'Comprising' is open — infringer can add more elements and still infringe. 'Consisting of' is closed — extra elements defeat infringement."],
+      hooks: ["<strong>All elements must match.</strong> Think of it as a checklist. Miss one → no literal infringement."],
+      mpep: ["MPEP 2131"],
+      connects: ["Doctrine of Equivalents", "Claim Construction", "Direct Infringement"],
+      notes: ""
+    },
+    {
+      title: "Doctrine of Equivalents (DOE)",
+      yield: "high",
+      rule: "<p>When no literal infringement, <strong style='color:#7df9e8'>DOE</strong> may still apply: the accused element performs <strong>substantially the same function</strong> in <strong>substantially the same way</strong> to achieve <strong>substantially the same result</strong> (<em>function-way-result</em> test).</p><p>Limits on DOE: <strong style='color:#ff9de2'>prosecution history estoppel</strong> (surrendered subject matter cannot be recaptured via DOE) and <strong>prior art</strong> (cannot capture what was in prior art).</p>",
+      details: [
+        "Graver Tank v. Linde Air (1950) — foundational DOE case",
+        "Warner-Jenkinson v. Hilton Davis (1997) — DOE survives but prosecution history estoppel limits it",
+        "Festo Corp. (2002) — narrowing amendment creates rebuttable presumption of estoppel",
+        "Estoppel: if applicant narrowed claim during prosecution, cannot recapture the surrendered scope via DOE",
+        "Rebuttable presumption: can overcome with showing surrender was tangential to disputed element",
+        "All-elements rule applies to DOE too: each element must be equivalent (not just overall invention)"
+      ],
+      traps: ["Prosecution history estoppel can block DOE — if you narrowed a claim to get it allowed, you can't use DOE to get back what you gave up."],
+      hooks: ["<strong>DOE: same function + same way + same result.</strong> But amendment history can lock you out. Estoppel = no DOE for surrendered scope."],
+      mpep: ["MPEP 2183", "MPEP 2184"],
+      connects: ["Literal Infringement", "Prosecution History", "Claim Construction"],
+      notes: ""
+    },
+    {
+      title: "Direct vs. Indirect Infringement",
+      yield: "moderate",
+      rule: "<p><strong style='color:#7df9e8'>Direct infringement (§271(a))</strong>: makes, uses, sells, offers for sale, or imports patented invention without authority. No intent required.</p><p><strong style='color:#ff9de2'>Induced infringement (§271(b))</strong>: actively induces another to infringe. Requires knowledge of patent AND intent to induce infringement.</p><p><strong style='color:#ffe566'>Contributory infringement (§271(c))</strong>: sells component with no substantial noninfringing use, knowing it's especially made for infringing use.</p>",
+      details: [
+        "Direct infringement: strict liability — no intent needed",
+        "Induced infringement: Global-Tech (2011) — willful blindness satisfies knowledge requirement",
+        "Contributory infringement: the component must have no 'substantial noninfringing use'",
+        "Both induced and contributory require an underlying act of direct infringement",
+        "Method claim: single party must perform all steps for direct infringement (Limeade v. Akamai 2014 en banc)",
+        "Offers for sale within U.S. can infringe even if product shipped from abroad"
+      ],
+      table: {
+        heads: ["Type", "Statute", "Intent Required?", "Requires Underlying Direct?"],
+        colClass: ["col-a", "", "col-b", "col-c"],
+        rows: [
+          ["Direct", "§271(a)", "No (strict liability)", "N/A"],
+          ["Induced", "§271(b)", "Yes — specific intent", "Yes"],
+          ["Contributory", "§271(c)", "Constructive (no SNI use)", "Yes"]
+        ]
+      },
+      traps: ["Indirect infringement (induced/contributory) always requires an underlying act of direct infringement. No direct infringement = no indirect infringement."],
+      hooks: ["<strong>Direct = strict liability. Indirect = needs knowledge + intent (and someone must directly infringe first).</strong>"],
+      mpep: ["MPEP 2141"],
+      connects: ["Literal Infringement", "DOE", "Willful Infringement"],
+      notes: ""
+    }
+  ]
+}
+];
+/* ════════════════════════════════════════════════════════ */
+
+// ── Render ──
+const sidebar = document.getElementById('sidebar');
+const main    = document.getElementById('main');
+let activeBucket = 0;
+
+function yieldLabel(y){ return ({
+  'very-high':'Very High Yield','high':'High Yield','moderate':'Moderate Yield','low':'Low Yield'
+})[y] || y; }
+
+function renderSidebar(){
+  sidebar.innerHTML = '';
+  BUCKETS.forEach((b,i)=>{
+    if(i===4) { const d=document.createElement('div'); d.className='sb-divider'; sidebar.appendChild(d); }
+    const btn = document.createElement('button');
+    btn.className='sb-btn'+(i===activeBucket?' active':'');
+    btn.innerHTML=`<span class="sb-num">Bucket ${b.num}</span><span>${b.title}</span>`;
+    btn.onclick=()=>{ activeBucket=i; renderSidebar(); renderBucket(); updateDueBadge(); };
+    sidebar.appendChild(btn);
+  });
+}
+
+function renderBucket(){
+  const b = BUCKETS[activeBucket];
+  main.scrollTop=0;
+  main.innerHTML='';
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className='bkt-header';
+  hdr.innerHTML=`<div class="bkt-title">Bucket ${b.num} — ${b.title}</div><div class="bkt-sub">${b.sub}</div><div class="bkt-mpep">${b.mpep}</div>`;
+  main.appendChild(hdr);
+
+  // No results placeholder
+  const noRes = document.createElement('div');
+  noRes.className='no-results';
+  noRes.id='no-results';
+  noRes.style.display='none';
+  noRes.textContent='No topics match your search.';
+  main.appendChild(noRes);
+
+  // Topics grid
+  const grid = document.createElement('div');
+  grid.className='topics';
+  main.appendChild(grid);
+
+  b.topics.forEach((t,ti)=>{
+    const card = document.createElement('div');
+    card.className='topic';
+    card.dataset.index=ti;
+    card.dataset.bid=activeBucket;
+    card.dataset.tid=ti;
+    card.style.animationDelay=(ti*.04)+'s';
+
+    // Saved state
+    const key=`open_${activeBucket}_${ti}`;
+    if(localStorage.getItem(key)==='1') card.classList.add('open');
+
+    const noteKey=`note_${activeBucket}_${ti}`;
+    const savedNote = localStorage.getItem(noteKey) || t.notes;
+
+
+    // Build inner HTML
+    let html=`
+      <div class="topic-head">
+        <div class="topic-title">${t.title}</div>
+        <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
+          <div class="yield ${t.yield}">${yieldLabel(t.yield)}</div>
+          <button class="focus-btn" onclick="openFocus(${activeBucket},${ti})" title="Focus mode">⤢</button>
+        </div>
+      </div>
+      <div class="rule">${t.rule}</div>`;
+
+    const hasDetails = t.details.length||t.traps.length||t.hooks.length||t.connects.length||t.mpep.length||(t.table&&t.table.length);
+    if(hasDetails){
+      html+=`<div class="toggle" onclick="toggleCard(this)"><span class="toggle-arrow">▶</span> Details & MPEP</div>
+      <div class="details">`;
+      if(t.details.length) html+=t.details.map(d=>`<div class="det-item">${d}</div>`).join('');
+      if(t.table&&t.table.length) html+=renderTable(t.table);
+      t.traps.forEach(tr=>{ html+=`<div class="trap"><strong>⚠ Trap:</strong> ${tr}</div>`; });
+      t.hooks.forEach(h=>{ html+=`<div class="hook">💡 ${h}</div>`; });
+      if(t.mpep.length||t.connects.length){
+        html+=`<div class="chips">`;
+        t.mpep.forEach(m=>{ html+=`<div class="chip mpep">${m}</div>`; });
+        t.connects.forEach(c=>{ html+=`<div class="chip link">→ ${c}</div>`; });
+        html+=`</div>`;
+      }
+      html+=`</div>`;
+    }
+
+    // Notes
+    html+=`
+`;
+
+    card.innerHTML=html;
+    grid.appendChild(card);
+  });
+
+  updateProgress();
+  applySearch(document.getElementById('search').value);
+}
+
+function toggleCard(toggleEl){
+  const card = toggleEl.closest('.topic');
+  card.classList.toggle('open');
+  const i = card.dataset.index;
+  const key=`open_${activeBucket}_${i}`;
+  localStorage.setItem(key, card.classList.contains('open')?'1':'0');
+  updateProgress();
+}
+
+function saveNote(el, bIdx, tIdx){
+  localStorage.setItem(`note_${bIdx}_${tIdx}`, el.value);
+}
+
+function updateProgress(){
+  const all = document.querySelectorAll('.topic');
+  const open = document.querySelectorAll('.topic.open');
+  const pct = all.length ? (open.length/all.length)*100 : 0;
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('pcount').textContent=open.length;
+  document.getElementById('ptotal').textContent=all.length;
+}
+
+function doSearch(q){
+  applySearch(q);
+}
+
+function applySearch(q){
+  q = q.trim().toLowerCase();
+  const cards = document.querySelectorAll('.topic');
+  let visible=0;
+  cards.forEach(card=>{
+    if(!q){ card.classList.remove('hidden'); visible++; return; }
+    const text = card.textContent.toLowerCase();
+    if(text.includes(q)){ card.classList.remove('hidden'); visible++; }
+    else card.classList.add('hidden');
+  });
+  const nr = document.getElementById('no-results');
+  if(nr) nr.style.display = (visible===0 && q) ? 'block' : 'none';
+}
+
+function renderTable(tbl){
+  // tbl = { heads: ['A','B','C'], colClass:['col-a','col-b','col-c'], rows: [['label','val1','val2'],...] }
+  let h = `<table class="cmp"><thead><tr class="th-row">`;
+  tbl.heads.forEach((hd,i)=>{ h+=`<th class="${(tbl.colClass||[])[i]||''}">${hd}</th>`; });
+  h+=`</tr></thead><tbody>`;
+  tbl.rows.forEach(row=>{
+    h+=`<tr>`;
+    row.forEach((cell,i)=>{ h+=`<td class="${(tbl.cellClass&&tbl.cellClass[row.indexOf?.[i]||i])||''}">${cell}</td>`; });
+    h+=`</tr>`;
+  });
+  h+=`</tbody></table>`;
+  return h;
+}
+
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const btn = document.getElementById('sbToggle');
+  sb.classList.toggle('collapsed');
+  btn.style.color = sb.classList.contains('collapsed') ? '#5a8fff' : '';
+}
+
+let focusBucket = 0;
+let focusTopic = 0;
+
+function openFocus(bIdx, tIdx){
+  focusBucket = bIdx;
+  focusTopic = tIdx;
+  renderFocusCard();
+  const ov = document.getElementById('focusOverlay');
+  ov.classList.add('visible');
+  ov.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function renderFocusCard(){
+  const bIdx = focusBucket;
+  const tIdx = focusTopic;
+  const t = BUCKETS[bIdx].topics[tIdx];
+  const noteKey = `note_${bIdx}_${tIdx}`;
+  const savedNote = localStorage.getItem(noteKey) || t.notes;
+  const totalTopics = BUCKETS[bIdx].topics.length;
+
+  // Rule: split on '. ' to add paragraph breaks between sentences
+  const ruleFormatted = t.rule.replace(/<[^>]*>/g, m => m); // keep existing HTML tags
+
+  let html = `
+    <button class="focus-close" onclick="closeFocus()">✕</button>
+    <div class="topic-title">${t.title}</div>
+    <div class="yield ${t.yield}">${yieldLabel(t.yield)}</div>
+    <div class="rule">${t.rule}</div>`;
+
+  if(t.details.length) html += t.details.map(d=>`<div class="det-item">${d}</div>`).join('');
+  if(t.table&&t.table.length) html += renderTable(t.table);
+  t.traps.forEach(tr=>{ html+=`<div class="trap"><strong>⚠ Trap:</strong> ${tr}</div>`; });
+  t.hooks.forEach(h=>{ html+=`<div class="hook">💡 ${h}</div>`; });
+
+  if(t.mpep.length||t.connects.length){
+    html+=`<div class="chips">`;
+    t.mpep.forEach(m=>{ html+=`<div class="chip mpep">${m}</div>`; });
+    t.connects.forEach(c=>{ html+=`<div class="chip link">→ ${c}</div>`; });
+    html+=`</div>`;
+  }
+
+  html+=`<div class="notes-section">
+    <div class="notes-label">My Notes</div>
+    <textarea class="notes-box" placeholder="Add your notes here…" oninput="saveNote(this,${bIdx},${tIdx})">${savedNote}</textarea>
+  </div>`;
+
+  // Prev / Next nav
+  const hasPrev = tIdx > 0;
+  const hasNext = tIdx < totalTopics - 1;
+  html += `<div class="focus-nav">
+    <button class="focus-nav-btn" onclick="focusNav(-1)" ${hasPrev?'':'disabled'}>← Prev</button>
+    <span class="focus-nav-counter">${tIdx+1} of ${totalTopics}</span>
+    <button class="focus-nav-btn" onclick="focusNav(1)" ${hasNext?'':'disabled'}>Next →</button>
+  </div>`;
+
+  document.getElementById('focusCard').innerHTML = html;
+  document.getElementById('focusOverlay').scrollTop = 0;
+}
+
+function focusNav(dir){
+  const newIdx = focusTopic + dir;
+  const total = BUCKETS[focusBucket].topics.length;
+  if(newIdx < 0 || newIdx >= total) return;
+  focusTopic = newIdx;
+  renderFocusCard();
+}
+
+function closeFocus(){
+  document.getElementById('focusOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function overlayClick(e){
+  if(e.target === document.getElementById('focusOverlay')) closeFocus();
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeFocus();
+  const ov = document.getElementById('focusOverlay');
+  if(ov.classList.contains('visible')){
+    if(e.key==='ArrowRight') focusNav(1);
+    if(e.key==='ArrowLeft') focusNav(-1);
+  }
+});
+
+
+/* ══════════════════ QUIZ ENGINE ══════════════════ */
+
+// SRS scheduling constants (intervals in hours)
+const SRS_AGAIN = 1;      // 1 hour — review later, not this session
+const SRS_HARD  = 12;     // 12 hours
+const SRS_GOOD  = 48;     // 2 days
+
+// Storage key for SRS state
+function srsKey(bIdx, tIdx, clozeIdx) { return `srs_${bIdx}_${tIdx}_${clozeIdx}`; }
+
+// Load SRS record
+function loadSRS(key) {
+  try { return JSON.parse(localStorage.getItem(key)) || null; } catch { return null; }
+}
+function saveSRS(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+// Generate cloze cards from a topic
+function makeClozeCards(t, bIdx, tIdx) {
+  const cards = [];
+  // Strip HTML tags from rule text for processing
+  const ruleRaw = t.rule.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+
+  // Key phrases to blank — ordered by importance
+  const keyPhrases = extractKeyPhrases(ruleRaw, t);
+
+  keyPhrases.forEach((phrase, ci) => {
+    if (!phrase || phrase.length < 3) return;
+    // Build sentence with blank — replace ALL occurrences so answer can't be inferred from context
+    const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const blanked = ruleRaw.replace(new RegExp(escaped, 'gi'), '▓'.repeat(phrase.length));
+    cards.push({
+      bIdx, tIdx, clozeIdx: ci,
+      topicTitle: t.title,
+      yield: t.yield,
+      sentence: blanked,
+      answer: phrase,
+      fullRule: ruleRaw,
+      trap: t.traps[0] || '',
+      hook: t.hooks[0] || '',
+      srsKey: srsKey(bIdx, tIdx, ci)
+    });
+  });
+  return cards;
+}
+
+// Extract the most meaningful phrases to test
+function extractKeyPhrases(text, t) {
+  const phrases = [];
+
+  // Strategy 1: Numbers and time periods (very testable)
+  const nums = text.match(/\b\d+[\s-]?months?\b|\b\d+[\s-]?years?\b|\b\d+[\s-]?days?\b|\b\d[\s.]\d+\b|\b\d{1,2} months\b/gi) || [];
+  nums.forEach(n => { if (!phrases.includes(n)) phrases.push(n); });
+
+  // Strategy 2: ALL-CAPS or bold-implied key terms (NOT, MUST, CANNOT etc)
+  const caps = text.match(/\bNOT\b|\bMUST\b|\bCANNOT\b|\bNEVER\b|\bONLY\b|\bALL\b/g) || [];
+  // skip these — too short, pick the phrase around them instead
+
+  // Strategy 3: Key legal terms and proper nouns
+  const legalTerms = [
+    'broadest reasonable interpretation', 'undue experimentation',
+    'written description', 'best mode', 'effective filing date',
+    'prima facie', 'PHOSITA', 'one of ordinary skill',
+    'reasonable certainty', 'necessarily present',
+    'reasonable expectation of success', 'commensurate in scope',
+    'first inventor to file', 'first to invent',
+    'terminal disclaimer', 'safe harbor', 'double patenting',
+    'inequitable conduct', 'deceptive intent',
+    'new matter', 'common ownership',
+    'notice of appeal', 'appeal brief',
+    'national stage', 'priority date',
+    'ex parte', 'inter partes',
+    'specification', 'oath', 'declaration',
+    'continuation-in-part', 'divisional',
+    'request for continued examination',
+    'provisional', 'nonprovisional',
+    'anticipation', 'obviousness',
+    'abstract idea', 'law of nature', 'natural phenomenon',
+    'significantly more', 'judicial exception',
+    'means-plus-function', 'corresponding structure',
+    'comprising', 'consisting of', 'consisting essentially of',
+    'teaching away', 'nexus', 'commercial success',
+    'long-felt need', 'unexpected results'
+  ];
+  legalTerms.forEach(term => {
+    if (text.toLowerCase().includes(term.toLowerCase())) {
+      // Find actual case in text
+      const idx = text.toLowerCase().indexOf(term.toLowerCase());
+      const actual = text.substring(idx, idx + term.length);
+      if (!phrases.includes(actual)) phrases.push(actual);
+    }
+  });
+
+  // Strategy 4: Parenthetical section numbers
+  const sections = text.match(/§\s*\d+[\w().]*/g) || [];
+  sections.forEach(s => { if (!phrases.includes(s)) phrases.push(s); });
+
+  // Strategy 5: CFR rule numbers
+  const rules = text.match(/\b1\.\d+[a-z]?\b/g) || [];
+  rules.forEach(r => { if (!phrases.includes(r)) phrases.push(r); });
+
+  // Limit to 3 most important per topic to avoid fatigue
+  return phrases.slice(0, 3);
+}
+
+// Quiz state
+let qzDeck = [];
+let qzIndex = 0;
+let qzStats = { again: 0, hard: 0, good: 0 };
+let qzRevealed = false;
+let qzMode = 'all'; // 'all' | 'due' | 'wrong'
+let qzSessionActive = false; // true once a quiz has been started this page load
+
+// ── Session persistence ──────────────────────────────────────────────────────
+function sessionKey(mode, bIdx) { return `qz_session_b${bIdx}_${mode}`; }
+
+function saveSession() {
+  try {
+    localStorage.setItem(sessionKey(qzMode, activeBucket), JSON.stringify({
+      deck: qzDeck, index: qzIndex, stats: qzStats,
+      mode: qzMode, bucket: activeBucket, savedAt: Date.now()
+    }));
+  } catch(e) {}
+}
+
+function loadSession(mode, bIdx) {
+  try {
+    const raw = localStorage.getItem(sessionKey(mode, bIdx));
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (Date.now() - s.savedAt > 86400000) { localStorage.removeItem(sessionKey(mode, bIdx)); return null; }
+    if (s.index >= s.deck.length) { localStorage.removeItem(sessionKey(mode, bIdx)); return null; }
+    return s;
+  } catch(e) { return null; }
+}
+
+function clearSession(mode, bIdx) {
+  try { localStorage.removeItem(sessionKey(mode, bIdx)); } catch(e) {}
+}
+// ────────────────────────────────────────────────────────────────────────────
+
+function startQuiz(mode) {
+  qzMode = mode || 'all';
+
+  // Wrong-card quiz never resumes (always fresh from current state)
+  if (qzMode !== 'wrong') {
+    const saved = loadSession(qzMode, activeBucket);
+    if (saved) {
+      // If quiz was already active this session, resume silently without confirm
+      if (qzSessionActive && qzDeck.length > 0) {
+        openQuizOverlay();
+        renderQuizCard();
+        return;
+      }
+      // Only show confirm on fresh page load
+      const remaining = saved.deck.length - saved.index;
+      const resume = confirm(`Quiz in progress — ${remaining} card${remaining !== 1 ? 's' : ''} left.\n\nResume where you left off?`);
+      if (resume) {
+        qzDeck = saved.deck;
+        qzIndex = saved.index;
+        qzStats = saved.stats;
+        qzSessionActive = true;
+        openQuizOverlay();
+        renderQuizCard();
+        return;
+      } else {
+        clearSession(qzMode, activeBucket);
+      }
+    }
+  }
+
+  const b = BUCKETS[activeBucket];
+  let allCards = [];
+  b.topics.forEach((t, ti) => {
+    allCards = allCards.concat(makeClozeCards(t, activeBucket, ti));
+  });
+
+  if (qzMode === 'due') {
+    const now = Date.now();
+    allCards = allCards.filter(c => {
+      const srs = loadSRS(c.srsKey);
+      if (!srs) return true;
+      return now >= srs.nextDue;
+    });
+  }
+
+  // Shuffle
+  for (let i = allCards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
+  }
+
+  qzDeck = allCards;
+  qzIndex = 0;
+  qzStats = { again: 0, hard: 0, good: 0 };
+
+  if (qzDeck.length === 0) {
+    openQuizOverlay();
+    document.getElementById('qzBody').innerHTML = `
+      <div class="qz-summary">
+        <h2>Nothing due right now</h2>
+        <p style="color:#5a6a88;margin-top:12px">All cards in this bucket are scheduled for later.</p>
+        <button class="qz-restart" style="margin-top:24px" onclick="startQuiz('all')">Study All Cards Instead</button>
+      </div>`;
+    return;
+  }
+
+  saveSession();
+  qzSessionActive = true;
+  openQuizOverlay();
+  renderQuizCard();
+}
+
+function openQuizOverlay() {
+  const ov = document.getElementById('quizOverlay');
+  ov.classList.add('visible');
+  document.getElementById('qzTopbar').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('quizBtn').classList.add('active');
+  // Reset card position when opening fresh
+  qzCardX = null; qzCardY = null;
+}
+
+function closeQuiz() {
+  document.getElementById('quizOverlay').classList.remove('visible');
+  document.getElementById('qzTopbar').classList.remove('visible');
+  document.body.style.overflow = '';
+  document.getElementById('quizBtn').classList.remove('active');
+  document.getElementById('wrongBtn').classList.remove('active');
+  // Keep qzDeck/qzIndex in memory — reopening will resume silently this session
+  updateDueBadge();
+  updateWrongBadge();
+}
+
+// ── Draggable card state ─────────────────────────────────────────────────────
+let qzCardX = null;
+let qzCardY = null;
+let qzDragging = false;
+let qzDragStartX = 0;
+let qzDragStartY = 0;
+let qzDragCardX = 0;
+let qzDragCardY = 0;
+
+function initDrag(card) {
+  if (!card) return;
+  const ov = document.getElementById('quizOverlay');
+  const ovRect = ov.getBoundingClientRect();
+
+  // Position card: use saved position or center it
+  if (qzCardX === null) {
+    const cardW = card.offsetWidth || 860;
+    const cardH = card.offsetHeight || 400;
+    qzCardX = Math.max(0, (ovRect.width - cardW) / 2);
+    qzCardY = Math.max(0, (ovRect.height - cardH) / 2 - 20);
+  }
+  card.style.left = qzCardX + 'px';
+  card.style.top = qzCardY + 'px';
+
+  card.addEventListener('mousedown', onDragStart);
+  card.addEventListener('touchstart', onDragStartTouch, { passive: true });
+}
+
+function onDragStart(e) {
+  if (e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  qzDragging = true;
+  const card = e.currentTarget;
+  qzDragStartX = e.clientX;
+  qzDragStartY = e.clientY;
+  qzDragCardX = parseFloat(card.style.left) || 0;
+  qzDragCardY = parseFloat(card.style.top) || 0;
+  card.style.transition = 'none';
+  document.addEventListener('mousemove', onDragMove);
+  document.addEventListener('mouseup', onDragEnd);
+}
+
+function onDragStartTouch(e) {
+  if (e.target.tagName === 'BUTTON') return;
+  const t = e.touches[0];
+  qzDragging = true;
+  const card = e.currentTarget;
+  qzDragStartX = t.clientX;
+  qzDragStartY = t.clientY;
+  qzDragCardX = parseFloat(card.style.left) || 0;
+  qzDragCardY = parseFloat(card.style.top) || 0;
+  document.addEventListener('touchmove', onDragMoveTouch, { passive: false });
+  document.addEventListener('touchend', onDragEndTouch);
+}
+
+function onDragMove(e) {
+  if (!qzDragging) return;
+  moveCard(e.clientX, e.clientY);
+}
+
+function onDragMoveTouch(e) {
+  if (!qzDragging) return;
+  e.preventDefault();
+  moveCard(e.touches[0].clientX, e.touches[0].clientY);
+}
+
+function moveCard(cx, cy) {
+  const ov = document.getElementById('quizOverlay');
+  const card = ov.querySelector('.qz-card, .qz-summary');
+  if (!card) return;
+  const ovRect = ov.getBoundingClientRect();
+  const dx = cx - qzDragStartX;
+  const dy = cy - qzDragStartY;
+  const newX = Math.max(0, Math.min(ovRect.width - card.offsetWidth, qzDragCardX + dx));
+  const newY = Math.max(0, Math.min(ovRect.height - card.offsetHeight, qzDragCardY + dy));
+  qzCardX = newX;
+  qzCardY = newY;
+  card.style.left = newX + 'px';
+  card.style.top = newY + 'px';
+}
+
+function onDragEnd() {
+  qzDragging = false;
+  document.removeEventListener('mousemove', onDragMove);
+  document.removeEventListener('mouseup', onDragEnd);
+}
+
+function onDragEndTouch() {
+  qzDragging = false;
+  document.removeEventListener('touchmove', onDragMoveTouch);
+  document.removeEventListener('touchend', onDragEndTouch);
+}
+// ────────────────────────────────────────────────────────────────────────────
+
+function renderQuizCard() {
+  if (qzIndex >= qzDeck.length) {
+    renderQuizSummary();
+    return;
+  }
+
+  const c = qzDeck[qzIndex];
+  qzRevealed = false;
+
+  // Progress
+  const pct = (qzIndex / qzDeck.length) * 100;
+  document.getElementById('qzPfill').style.width = pct + '%';
+  document.getElementById('qzProgText').textContent = `${qzIndex + 1} / ${qzDeck.length}`;
+  document.getElementById('qzTitle').textContent = `Quiz — Bucket ${BUCKETS[activeBucket].num}: ${BUCKETS[activeBucket].title}`;
+
+  // Build sentence display — replace ALL ▓ blocks with styled blanks
+  let blankCount = 0;
+  const sentenceHtml = c.sentence.replace(/▓+/g, () => {
+    blankCount++;
+    const id = blankCount === 1 ? 'id="qzBlank"' : `id="qzBlank${blankCount}"`;
+    return `<span class="qz-blank" ${id} onclick="revealAnswer()"></span>`;
+  });
+
+  // Yield class
+  const yieldClass = c.yield;
+  const yieldLabels = {'very-high':'Very High Yield','high':'High Yield','moderate':'Moderate Yield','low':'Low Yield'};
+
+  const bucketLabel = qzMode === 'wrong' && c.bucketTitle
+    ? `${c.bucketTitle} → ${c.topicTitle}`
+    : c.topicTitle;
+
+  document.getElementById('qzBody').innerHTML = `
+    <div class="qz-card">
+      <div class="qz-topic-label">${bucketLabel}</div>
+      <div class="qz-yield ${yieldClass}">${yieldLabels[yieldClass] || yieldClass}</div>
+      <div class="qz-sentence" id="qzSentence">${sentenceHtml}</div>
+
+      <button class="qz-reveal-btn" id="qzRevealBtn" onclick="revealAnswer()">Show Answer</button>
+
+      <div class="qz-answer-area" id="qzAnswerArea">
+        <div class="qz-answer-label">Answer</div>
+        <div class="qz-answer-text" id="qzAnswerText"></div>
+        ${c.trap ? `<div class="qz-context"><strong style="color:#e07878">⚠ Trap:</strong> ${c.trap}</div>` : ''}
+        ${c.hook ? `<div class="qz-context" style="border-left-color:#2a6050;margin-top:8px"><strong style="color:#40d4b8">💡 Hook:</strong> ${c.hook}</div>` : ''}
+      </div>
+
+      <div class="qz-ratings" id="qzRatings">
+        <button class="qz-rate again" onclick="rateCard('again')">
+          <span class="rate-icon">🔴</span>
+          <span class="rate-label">Again</span>
+          <span class="rate-sub">Didn't know it</span>
+        </button>
+        <button class="qz-rate hard" onclick="rateCard('hard')">
+          <span class="rate-icon">🟡</span>
+          <span class="rate-label">Hard</span>
+          <span class="rate-sub">Took effort</span>
+        </button>
+        <button class="qz-rate good" onclick="rateCard('good')">
+          <span class="rate-icon">🟢</span>
+          <span class="rate-label">Got it</span>
+          <span class="rate-sub">Knew it cold</span>
+        </button>
+      </div>
+    </div>`;
+  // Init drag on newly rendered card
+  requestAnimationFrame(() => {
+    const card = document.getElementById('qzBody').querySelector('.qz-card');
+    initDrag(card);
+  });
+}
+
+function revealAnswer() {
+  if (qzRevealed) return;
+  qzRevealed = true;
+  const c = qzDeck[qzIndex];
+
+  // Update ALL blank spans
+  document.querySelectorAll('.qz-blank').forEach(blank => {
+    blank.textContent = c.answer;
+    blank.classList.add('revealed');
+  });
+
+  // Show answer area
+  document.getElementById('qzAnswerText').textContent = c.answer;
+  document.getElementById('qzAnswerArea').classList.add('show');
+
+  // Show ratings, hide reveal btn
+  document.getElementById('qzRevealBtn').style.display = 'none';
+  document.getElementById('qzRatings').classList.add('show');
+}
+
+function rateCard(rating) {
+  const c = qzDeck[qzIndex];
+  qzStats[rating]++;
+
+  // SRS scheduling
+  const now = Date.now();
+  let interval, nextDue;
+  if (rating === 'again') {
+    interval = SRS_AGAIN;
+    nextDue = now + SRS_AGAIN * 3600000; // 1 hour — not this session
+  } else if (rating === 'hard') {
+    interval = SRS_HARD;
+    nextDue = now + SRS_HARD * 3600000;
+  } else {
+    interval = SRS_GOOD;
+    nextDue = now + SRS_GOOD * 3600000;
+  }
+  saveSRS(c.srsKey, { interval, nextDue, lastRating: rating, lastSeen: now });
+
+  qzIndex++;
+  saveSession(); // persist progress after every card
+  renderQuizCard();
+}
+
+function renderQuizSummary() {
+  clearSession(qzMode, activeBucket); // session done — clear so next open starts fresh
+  const total = qzStats.again + qzStats.hard + qzStats.good;
+  const pct = total > 0 ? Math.round((qzStats.good / total) * 100) : 0;
+  document.getElementById('qzPfill').style.width = '100%';
+  document.getElementById('qzProgText').textContent = 'Done';
+
+  const msg = pct === 100 ? "Perfect session." :
+              pct >= 70  ? "Solid — review the reds before next time." :
+                           "Keep going — the reds need another pass.";
+
+  document.getElementById('qzBody').innerHTML = `
+    <div class="qz-summary">
+      <h2>Session Complete</h2>
+      <div class="sum-stat">${pct}%</div>
+      <div class="sum-sub">${msg}</div>
+      <div class="qz-sum-bars">
+        <div class="qz-sum-bar"><div class="bar-n again-n">${qzStats.again}</div><div class="bar-l">Again</div></div>
+        <div class="qz-sum-bar"><div class="bar-n hard-n">${qzStats.hard}</div><div class="bar-l">Hard</div></div>
+        <div class="qz-sum-bar"><div class="bar-n good-n">${qzStats.good}</div><div class="bar-l">Got it</div></div>
+      </div>
+      <button class="qz-restart" onclick="startQuiz('due')">Review Due Now</button>
+      <button class="qz-restart-due" onclick="startQuiz('all')">Restart All Cards</button>
+      <p style="font-size:12px;color:#3a4a62;margin-top:16px">Cards marked "Again" will be due in 1 hour.</p>
+    </div>`;
+
+  requestAnimationFrame(() => {
+    const card = document.getElementById('qzBody').querySelector('.qz-summary');
+    initDrag(card);
+  });
+  updateDueBadge();
+}
+
+function updateDueBadge() {
+  const b = BUCKETS[activeBucket];
+  const now = Date.now();
+  let due = 0;
+  b.topics.forEach((t, ti) => {
+    const cards = makeClozeCards(t, activeBucket, ti);
+    cards.forEach(c => {
+      const srs = loadSRS(c.srsKey);
+      if (!srs || now >= srs.nextDue) due++;
+    });
+  });
+  const badge = document.getElementById('dueBadge');
+  if (badge) {
+    badge.textContent = due;
+    badge.classList.toggle('show', due > 0);
+  }
+  updateWrongBadge();
+}
+
+function getWrongCards() {
+  // Collect all Again-rated cards across ALL buckets
+  const wrongCards = [];
+  const now = Date.now();
+  BUCKETS.forEach((b, bIdx) => {
+    b.topics.forEach((t, ti) => {
+      const cards = makeClozeCards(t, bIdx, ti);
+      cards.forEach(c => {
+        const srs = loadSRS(c.srsKey);
+        if (srs && srs.lastRating === 'again') {
+          wrongCards.push({ ...c, bucketTitle: b.title, isDue: now >= srs.nextDue });
+        }
+      });
+    });
+  });
+  return wrongCards;
+}
+
+function updateWrongBadge() {
+  const wrong = getWrongCards();
+  const due = wrong.filter(c => c.isDue).length;
+  const badge = document.getElementById('wrongBadge');
+  const btn = document.getElementById('wrongBtn');
+  if (badge) {
+    badge.textContent = wrong.length;
+    badge.classList.toggle('show', wrong.length > 0);
+  }
+  if (btn) {
+    btn.style.display = wrong.length > 0 ? '' : 'none';
+  }
+}
+
+function startWrongQuiz() {
+  const wrongCards = getWrongCards();
+  const now = Date.now();
+
+  if (wrongCards.length === 0) {
+    alert('No wrong cards yet. Complete a quiz first.');
+    return;
+  }
+
+  // Separate due and not-yet-due
+  const due = wrongCards.filter(c => c.isDue);
+  const pending = wrongCards.filter(c => !c.isDue);
+
+  // Show due ones first, then pending
+  let deck = [...due, ...pending];
+
+  // Shuffle each group
+  for (let i = due.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+
+  qzDeck = deck;
+  qzIndex = 0;
+  qzStats = { again: 0, hard: 0, good: 0 };
+
+  // Override title for this mode
+  openQuizOverlay();
+  document.getElementById('quizBtn').classList.remove('active');
+  document.getElementById('wrongBtn').classList.add('active');
+  document.getElementById('qzTitle').textContent = `🔴 Wrong Cards — All Buckets (${deck.length} cards)`;
+
+  // Add bucket label to each card display
+  qzMode = 'wrong';
+  renderQuizCard();
+}
+
+// Update due badge when switching buckets
+const _origRenderBucket = renderBucket;
+// patch after load
+
+/* ══ THEME ENGINE ══════════════════════════════════════════════════════════ */
+function setTheme(t) {
+  if (t === 'default') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', t);
+  }
+  localStorage.setItem('pb_theme', t);
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.t === t);
+  });
+  // Close panel after selection
+  document.getElementById('themePanel').classList.remove('open');
+}
+
+function toggleThemePanel(e) {
+  e.stopPropagation();
+  document.getElementById('themePanel').classList.toggle('open');
+}
+
+// Close theme panel when clicking elsewhere
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('themePanel');
+  if (panel && !document.getElementById('themeSwitcher').contains(e.target)) {
+    panel.classList.remove('open');
+  }
+});
+
+(function initTheme() {
+  const saved = localStorage.getItem('pb_theme') || 'default';
+  setTheme(saved);
+})();
+
+// Init
+renderSidebar();
+renderBucket();
+updateDueBadge();
+updateWrongBadge();
+</script>
+
+<!-- QUIZ OVERLAY -->
+<!-- Quiz topbar (fixed, shown during quiz) -->
+<div class="qz-topbar" id="qzTopbar">
+  <button class="qz-close" onclick="closeQuiz()">✕</button>
+  <div class="qz-title" id="qzTitle">Quiz</div>
+  <div class="qz-prog-text" id="qzProgText"></div>
+  <div class="qz-pbar"><div class="qz-pfill" id="qzPfill"></div></div>
+</div>
+
+<div id="quizOverlay">
+  <div id="qzBody"></div>
+</div>
+
+</body>
+</html>
